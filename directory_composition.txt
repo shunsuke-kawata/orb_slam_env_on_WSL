@@ -1,0 +1,1072 @@
+.
+├── ORB_SLAM2
+│   ├── CMakeLists.txt
+│   ├── Dependencies.md
+│   ├── Examples
+│   │   ├── Monocular
+│   │   │   ├── EuRoC.yaml
+│   │   │   ├── EuRoC_TimeStamps
+│   │   │   │   ├── MH01.txt
+│   │   │   │   ├── MH02.txt
+│   │   │   │   ├── MH03.txt
+│   │   │   │   ├── MH04.txt
+│   │   │   │   ├── MH05.txt
+│   │   │   │   ├── V101.txt
+│   │   │   │   ├── V102.txt
+│   │   │   │   ├── V103.txt
+│   │   │   │   ├── V201.txt
+│   │   │   │   ├── V202.txt
+│   │   │   │   └── V203.txt
+│   │   │   ├── KITTI00-02.yaml
+│   │   │   ├── KITTI03.yaml
+│   │   │   ├── KITTI04-12.yaml
+│   │   │   ├── TUM1.yaml
+│   │   │   ├── TUM2.yaml
+│   │   │   ├── TUM3.yaml
+│   │   │   ├── mono_euroc
+│   │   │   ├── mono_euroc.cc
+│   │   │   ├── mono_kitti
+│   │   │   ├── mono_kitti.cc
+│   │   │   ├── mono_tum
+│   │   │   └── mono_tum.cc
+│   │   ├── RGB-D
+│   │   │   ├── TUM1.yaml
+│   │   │   ├── TUM2.yaml
+│   │   │   ├── TUM3.yaml
+│   │   │   ├── associations
+│   │   │   │   ├── fr1_desk.txt
+│   │   │   │   ├── fr1_desk2.txt
+│   │   │   │   ├── fr1_room.txt
+│   │   │   │   ├── fr1_xyz.txt
+│   │   │   │   ├── fr2_desk.txt
+│   │   │   │   ├── fr2_xyz.txt
+│   │   │   │   ├── fr3_nstr_tex_near.txt
+│   │   │   │   ├── fr3_office.txt
+│   │   │   │   ├── fr3_office_val.txt
+│   │   │   │   ├── fr3_str_tex_far.txt
+│   │   │   │   └── fr3_str_tex_near.txt
+│   │   │   ├── rgbd_tum
+│   │   │   └── rgbd_tum.cc
+│   │   ├── ROS
+│   │   │   └── ORB_SLAM2
+│   │   │       ├── Asus.yaml
+│   │   │       ├── CMakeLists.txt
+│   │   │       ├── Mono
+│   │   │       ├── MonoAR
+│   │   │       ├── RGBD
+│   │   │       ├── Stereo
+│   │   │       ├── build
+│   │   │       │   ├── CATKIN_IGNORE
+│   │   │       │   ├── CMakeCache.txt
+│   │   │       │   ├── CMakeFiles
+│   │   │       │   │   ├── 3.16.3
+│   │   │       │   │   │   ├── CMakeCCompiler.cmake
+│   │   │       │   │   │   ├── CMakeCXXCompiler.cmake
+│   │   │       │   │   │   ├── CMakeDetermineCompilerABI_C.bin
+│   │   │       │   │   │   ├── CMakeDetermineCompilerABI_CXX.bin
+│   │   │       │   │   │   ├── CMakeSystem.cmake
+│   │   │       │   │   │   ├── CompilerIdC
+│   │   │       │   │   │   │   ├── CMakeCCompilerId.c
+│   │   │       │   │   │   │   ├── a.out
+│   │   │       │   │   │   │   └── tmp
+│   │   │       │   │   │   └── CompilerIdCXX
+│   │   │       │   │   │       ├── CMakeCXXCompilerId.cpp
+│   │   │       │   │   │       ├── a.out
+│   │   │       │   │   │       └── tmp
+│   │   │       │   │   ├── CMakeDirectoryInformation.cmake
+│   │   │       │   │   ├── CMakeError.log
+│   │   │       │   │   ├── CMakeOutput.log
+│   │   │       │   │   ├── CMakeRuleHashes.txt
+│   │   │       │   │   ├── CMakeTmp
+│   │   │       │   │   ├── Makefile.cmake
+│   │   │       │   │   ├── Makefile2
+│   │   │       │   │   ├── Mono.dir
+│   │   │       │   │   │   ├── CXX.includecache
+│   │   │       │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   ├── build.make
+│   │   │       │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   ├── depend.internal
+│   │   │       │   │   │   ├── depend.make
+│   │   │       │   │   │   ├── flags.make
+│   │   │       │   │   │   ├── link.txt
+│   │   │       │   │   │   ├── progress.make
+│   │   │       │   │   │   └── src
+│   │   │       │   │   │       └── ros_mono.cc.o
+│   │   │       │   │   ├── MonoAR.dir
+│   │   │       │   │   │   ├── CXX.includecache
+│   │   │       │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   ├── build.make
+│   │   │       │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   ├── depend.internal
+│   │   │       │   │   │   ├── depend.make
+│   │   │       │   │   │   ├── flags.make
+│   │   │       │   │   │   ├── link.txt
+│   │   │       │   │   │   ├── progress.make
+│   │   │       │   │   │   └── src
+│   │   │       │   │   │       └── AR
+│   │   │       │   │   │           ├── ViewerAR.cc.o
+│   │   │       │   │   │           └── ros_mono_ar.cc.o
+│   │   │       │   │   ├── RGBD.dir
+│   │   │       │   │   │   ├── CXX.includecache
+│   │   │       │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   ├── build.make
+│   │   │       │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   ├── depend.internal
+│   │   │       │   │   │   ├── depend.make
+│   │   │       │   │   │   ├── flags.make
+│   │   │       │   │   │   ├── link.txt
+│   │   │       │   │   │   ├── progress.make
+│   │   │       │   │   │   └── src
+│   │   │       │   │   │       └── ros_rgbd.cc.o
+│   │   │       │   │   ├── ROSBUILD_genmsg_cpp.dir
+│   │   │       │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   ├── build.make
+│   │   │       │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   └── progress.make
+│   │   │       │   │   ├── ROSBUILD_genmsg_lisp.dir
+│   │   │       │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   ├── build.make
+│   │   │       │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   └── progress.make
+│   │   │       │   │   ├── ROSBUILD_gensrv_cpp.dir
+│   │   │       │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   ├── build.make
+│   │   │       │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   └── progress.make
+│   │   │       │   │   ├── ROSBUILD_gensrv_lisp.dir
+│   │   │       │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   ├── build.make
+│   │   │       │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   └── progress.make
+│   │   │       │   │   ├── Stereo.dir
+│   │   │       │   │   │   ├── CXX.includecache
+│   │   │       │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   ├── build.make
+│   │   │       │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   ├── depend.internal
+│   │   │       │   │   │   ├── depend.make
+│   │   │       │   │   │   ├── flags.make
+│   │   │       │   │   │   ├── link.txt
+│   │   │       │   │   │   ├── progress.make
+│   │   │       │   │   │   └── src
+│   │   │       │   │   │       └── ros_stereo.cc.o
+│   │   │       │   │   ├── TargetDirectories.txt
+│   │   │       │   │   ├── _catkin_empty_exported_target.dir
+│   │   │       │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   ├── build.make
+│   │   │       │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   └── progress.make
+│   │   │       │   │   ├── clean_test_results.dir
+│   │   │       │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   ├── build.make
+│   │   │       │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   └── progress.make
+│   │   │       │   │   ├── cmake.check_cache
+│   │   │       │   │   ├── download_extra_data.dir
+│   │   │       │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   ├── build.make
+│   │   │       │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   └── progress.make
+│   │   │       │   │   ├── doxygen.dir
+│   │   │       │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   ├── build.make
+│   │   │       │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   └── progress.make
+│   │   │       │   │   ├── progress.marks
+│   │   │       │   │   ├── rosbuild_clean-test-results.dir
+│   │   │       │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   ├── build.make
+│   │   │       │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   └── progress.make
+│   │   │       │   │   ├── rosbuild_precompile.dir
+│   │   │       │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   ├── build.make
+│   │   │       │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   ├── depend.internal
+│   │   │       │   │   │   ├── depend.make
+│   │   │       │   │   │   └── progress.make
+│   │   │       │   │   ├── rosbuild_premsgsrvgen.dir
+│   │   │       │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   ├── build.make
+│   │   │       │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   └── progress.make
+│   │   │       │   │   ├── rospack_genmsg.dir
+│   │   │       │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   ├── build.make
+│   │   │       │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   └── progress.make
+│   │   │       │   │   ├── rospack_genmsg_libexe.dir
+│   │   │       │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   ├── build.make
+│   │   │       │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   ├── depend.internal
+│   │   │       │   │   │   ├── depend.make
+│   │   │       │   │   │   └── progress.make
+│   │   │       │   │   ├── rospack_gensrv.dir
+│   │   │       │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   ├── build.make
+│   │   │       │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   └── progress.make
+│   │   │       │   │   ├── run_tests.dir
+│   │   │       │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   ├── build.make
+│   │   │       │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   └── progress.make
+│   │   │       │   │   ├── test-future.dir
+│   │   │       │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   ├── build.make
+│   │   │       │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   └── progress.make
+│   │   │       │   │   ├── test-results-run.dir
+│   │   │       │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   ├── build.make
+│   │   │       │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   └── progress.make
+│   │   │       │   │   ├── test-results.dir
+│   │   │       │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   ├── build.make
+│   │   │       │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   └── progress.make
+│   │   │       │   │   ├── test.dir
+│   │   │       │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   ├── build.make
+│   │   │       │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   └── progress.make
+│   │   │       │   │   └── tests.dir
+│   │   │       │   │       ├── DependInfo.cmake
+│   │   │       │   │       ├── build.make
+│   │   │       │   │       ├── cmake_clean.cmake
+│   │   │       │   │       └── progress.make
+│   │   │       │   ├── Makefile
+│   │   │       │   ├── atomic_configure
+│   │   │       │   │   ├── _setup_util.py
+│   │   │       │   │   ├── env.sh
+│   │   │       │   │   ├── local_setup.bash
+│   │   │       │   │   ├── local_setup.sh
+│   │   │       │   │   ├── local_setup.zsh
+│   │   │       │   │   ├── setup.bash
+│   │   │       │   │   ├── setup.sh
+│   │   │       │   │   └── setup.zsh
+│   │   │       │   ├── bin
+│   │   │       │   ├── catkin
+│   │   │       │   │   └── catkin_generated
+│   │   │       │   │       └── version
+│   │   │       │   │           └── package.cmake
+│   │   │       │   ├── catkin_generated
+│   │   │       │   │   ├── env_cached.sh
+│   │   │       │   │   ├── generate_cached_setup.py
+│   │   │       │   │   ├── installspace
+│   │   │       │   │   │   ├── _setup_util.py
+│   │   │       │   │   │   ├── env.sh
+│   │   │       │   │   │   ├── local_setup.bash
+│   │   │       │   │   │   ├── local_setup.sh
+│   │   │       │   │   │   ├── local_setup.zsh
+│   │   │       │   │   │   ├── setup.bash
+│   │   │       │   │   │   ├── setup.sh
+│   │   │       │   │   │   └── setup.zsh
+│   │   │       │   │   ├── ordered_paths.cmake
+│   │   │       │   │   ├── setup_cached.sh
+│   │   │       │   │   └── stamps
+│   │   │       │   │       └── ORB_SLAM2
+│   │   │       │   │           ├── _setup_util.py.stamp
+│   │   │       │   │           ├── interrogate_setup_dot_py.py.stamp
+│   │   │       │   │           └── package.xml.stamp
+│   │   │       │   ├── cmake_install.cmake
+│   │   │       │   ├── devel
+│   │   │       │   │   ├── _setup_util.py
+│   │   │       │   │   ├── cmake.lock
+│   │   │       │   │   ├── env.sh
+│   │   │       │   │   ├── local_setup.bash
+│   │   │       │   │   ├── local_setup.sh
+│   │   │       │   │   ├── local_setup.zsh
+│   │   │       │   │   ├── setup.bash
+│   │   │       │   │   ├── setup.sh
+│   │   │       │   │   └── setup.zsh
+│   │   │       │   ├── gtest
+│   │   │       │   │   ├── CMakeFiles
+│   │   │       │   │   │   ├── CMakeDirectoryInformation.cmake
+│   │   │       │   │   │   └── progress.marks
+│   │   │       │   │   ├── CTestTestfile.cmake
+│   │   │       │   │   ├── Makefile
+│   │   │       │   │   ├── cmake_install.cmake
+│   │   │       │   │   ├── googlemock
+│   │   │       │   │   │   ├── CMakeFiles
+│   │   │       │   │   │   │   ├── CMakeDirectoryInformation.cmake
+│   │   │       │   │   │   │   ├── gmock.dir
+│   │   │       │   │   │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   │   │   ├── build.make
+│   │   │       │   │   │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   │   │   ├── depend.make
+│   │   │       │   │   │   │   │   ├── flags.make
+│   │   │       │   │   │   │   │   ├── link.txt
+│   │   │       │   │   │   │   │   ├── progress.make
+│   │   │       │   │   │   │   │   └── src
+│   │   │       │   │   │   │   ├── gmock_main.dir
+│   │   │       │   │   │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   │   │   ├── build.make
+│   │   │       │   │   │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   │   │   ├── depend.make
+│   │   │       │   │   │   │   │   ├── flags.make
+│   │   │       │   │   │   │   │   ├── link.txt
+│   │   │       │   │   │   │   │   ├── progress.make
+│   │   │       │   │   │   │   │   └── src
+│   │   │       │   │   │   │   └── progress.marks
+│   │   │       │   │   │   ├── CTestTestfile.cmake
+│   │   │       │   │   │   ├── Makefile
+│   │   │       │   │   │   └── cmake_install.cmake
+│   │   │       │   │   ├── googletest
+│   │   │       │   │   │   ├── CMakeFiles
+│   │   │       │   │   │   │   ├── CMakeDirectoryInformation.cmake
+│   │   │       │   │   │   │   ├── gtest.dir
+│   │   │       │   │   │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   │   │   ├── build.make
+│   │   │       │   │   │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   │   │   ├── depend.make
+│   │   │       │   │   │   │   │   ├── flags.make
+│   │   │       │   │   │   │   │   ├── link.txt
+│   │   │       │   │   │   │   │   ├── progress.make
+│   │   │       │   │   │   │   │   └── src
+│   │   │       │   │   │   │   ├── gtest_main.dir
+│   │   │       │   │   │   │   │   ├── DependInfo.cmake
+│   │   │       │   │   │   │   │   ├── build.make
+│   │   │       │   │   │   │   │   ├── cmake_clean.cmake
+│   │   │       │   │   │   │   │   ├── depend.make
+│   │   │       │   │   │   │   │   ├── flags.make
+│   │   │       │   │   │   │   │   ├── link.txt
+│   │   │       │   │   │   │   │   ├── progress.make
+│   │   │       │   │   │   │   │   └── src
+│   │   │       │   │   │   │   └── progress.marks
+│   │   │       │   │   │   ├── CTestTestfile.cmake
+│   │   │       │   │   │   ├── Makefile
+│   │   │       │   │   │   └── cmake_install.cmake
+│   │   │       │   │   └── lib
+│   │   │       │   └── test_results
+│   │   │       ├── manifest.xml
+│   │   │       └── src
+│   │   │           ├── AR
+│   │   │           │   ├── ViewerAR.cc
+│   │   │           │   ├── ViewerAR.h
+│   │   │           │   └── ros_mono_ar.cc
+│   │   │           ├── ros_mono.cc
+│   │   │           ├── ros_rgbd.cc
+│   │   │           └── ros_stereo.cc
+│   │   └── Stereo
+│   │       ├── EuRoC.yaml
+│   │       ├── EuRoC_TimeStamps
+│   │       │   ├── MH01.txt
+│   │       │   ├── MH02.txt
+│   │       │   ├── MH03.txt
+│   │       │   ├── MH04.txt
+│   │       │   ├── MH05.txt
+│   │       │   ├── V101.txt
+│   │       │   ├── V102.txt
+│   │       │   ├── V103.txt
+│   │       │   ├── V201.txt
+│   │       │   ├── V202.txt
+│   │       │   └── V203.txt
+│   │       ├── KITTI00-02.yaml
+│   │       ├── KITTI03.yaml
+│   │       ├── KITTI04-12.yaml
+│   │       ├── stereo_euroc
+│   │       ├── stereo_euroc.cc
+│   │       ├── stereo_kitti
+│   │       └── stereo_kitti.cc
+│   ├── KeyFrameTrajectory.txt
+│   ├── LICENSE.txt
+│   ├── License-gpl.txt
+│   ├── README.md
+│   ├── Thirdparty
+│   │   ├── DBoW2
+│   │   │   ├── CMakeLists.txt
+│   │   │   ├── DBoW2
+│   │   │   │   ├── BowVector.cpp
+│   │   │   │   ├── BowVector.h
+│   │   │   │   ├── FClass.h
+│   │   │   │   ├── FORB.cpp
+│   │   │   │   ├── FORB.h
+│   │   │   │   ├── FeatureVector.cpp
+│   │   │   │   ├── FeatureVector.h
+│   │   │   │   ├── ScoringObject.cpp
+│   │   │   │   ├── ScoringObject.h
+│   │   │   │   └── TemplatedVocabulary.h
+│   │   │   ├── DUtils
+│   │   │   │   ├── Random.cpp
+│   │   │   │   ├── Random.h
+│   │   │   │   ├── Timestamp.cpp
+│   │   │   │   └── Timestamp.h
+│   │   │   ├── LICENSE.txt
+│   │   │   ├── README.txt
+│   │   │   ├── build
+│   │   │   │   ├── CMakeCache.txt
+│   │   │   │   ├── CMakeFiles
+│   │   │   │   │   ├── 3.16.3
+│   │   │   │   │   │   ├── CMakeCCompiler.cmake
+│   │   │   │   │   │   ├── CMakeCXXCompiler.cmake
+│   │   │   │   │   │   ├── CMakeDetermineCompilerABI_C.bin
+│   │   │   │   │   │   ├── CMakeDetermineCompilerABI_CXX.bin
+│   │   │   │   │   │   ├── CMakeSystem.cmake
+│   │   │   │   │   │   ├── CompilerIdC
+│   │   │   │   │   │   │   ├── CMakeCCompilerId.c
+│   │   │   │   │   │   │   ├── a.out
+│   │   │   │   │   │   │   └── tmp
+│   │   │   │   │   │   └── CompilerIdCXX
+│   │   │   │   │   │       ├── CMakeCXXCompilerId.cpp
+│   │   │   │   │   │       ├── a.out
+│   │   │   │   │   │       └── tmp
+│   │   │   │   │   ├── CMakeDirectoryInformation.cmake
+│   │   │   │   │   ├── CMakeOutput.log
+│   │   │   │   │   ├── CMakeTmp
+│   │   │   │   │   ├── DBoW2.dir
+│   │   │   │   │   │   ├── CXX.includecache
+│   │   │   │   │   │   ├── DBoW2
+│   │   │   │   │   │   │   ├── BowVector.cpp.o
+│   │   │   │   │   │   │   ├── FORB.cpp.o
+│   │   │   │   │   │   │   ├── FeatureVector.cpp.o
+│   │   │   │   │   │   │   └── ScoringObject.cpp.o
+│   │   │   │   │   │   ├── DUtils
+│   │   │   │   │   │   │   ├── Random.cpp.o
+│   │   │   │   │   │   │   └── Timestamp.cpp.o
+│   │   │   │   │   │   ├── DependInfo.cmake
+│   │   │   │   │   │   ├── build.make
+│   │   │   │   │   │   ├── cmake_clean.cmake
+│   │   │   │   │   │   ├── depend.internal
+│   │   │   │   │   │   ├── depend.make
+│   │   │   │   │   │   ├── flags.make
+│   │   │   │   │   │   ├── link.txt
+│   │   │   │   │   │   └── progress.make
+│   │   │   │   │   ├── Makefile.cmake
+│   │   │   │   │   ├── Makefile2
+│   │   │   │   │   ├── TargetDirectories.txt
+│   │   │   │   │   ├── cmake.check_cache
+│   │   │   │   │   └── progress.marks
+│   │   │   │   ├── Makefile
+│   │   │   │   └── cmake_install.cmake
+│   │   │   └── lib
+│   │   │       └── libDBoW2.so
+│   │   └── g2o
+│   │       ├── CMakeLists.txt
+│   │       ├── README.txt
+│   │       ├── build
+│   │       │   ├── CMakeCache.txt
+│   │       │   ├── CMakeFiles
+│   │       │   │   ├── 3.16.3
+│   │       │   │   │   ├── CMakeCCompiler.cmake
+│   │       │   │   │   ├── CMakeCXXCompiler.cmake
+│   │       │   │   │   ├── CMakeDetermineCompilerABI_C.bin
+│   │       │   │   │   ├── CMakeDetermineCompilerABI_CXX.bin
+│   │       │   │   │   ├── CMakeSystem.cmake
+│   │       │   │   │   ├── CompilerIdC
+│   │       │   │   │   │   ├── CMakeCCompilerId.c
+│   │       │   │   │   │   ├── a.out
+│   │       │   │   │   │   └── tmp
+│   │       │   │   │   └── CompilerIdCXX
+│   │       │   │   │       ├── CMakeCXXCompilerId.cpp
+│   │       │   │   │       ├── a.out
+│   │       │   │   │       └── tmp
+│   │       │   │   ├── CMakeDirectoryInformation.cmake
+│   │       │   │   ├── CMakeOutput.log
+│   │       │   │   ├── CMakeTmp
+│   │       │   │   ├── FindOpenMP
+│   │       │   │   │   ├── OpenMPCheckVersion.c
+│   │       │   │   │   ├── OpenMPCheckVersion.cpp
+│   │       │   │   │   ├── OpenMPTryFlag.c
+│   │       │   │   │   ├── OpenMPTryFlag.cpp
+│   │       │   │   │   ├── ompver_C.bin
+│   │       │   │   │   └── ompver_CXX.bin
+│   │       │   │   ├── Makefile.cmake
+│   │       │   │   ├── Makefile2
+│   │       │   │   ├── TargetDirectories.txt
+│   │       │   │   ├── cmake.check_cache
+│   │       │   │   ├── g2o.dir
+│   │       │   │   │   ├── C.includecache
+│   │       │   │   │   ├── CXX.includecache
+│   │       │   │   │   ├── DependInfo.cmake
+│   │       │   │   │   ├── build.make
+│   │       │   │   │   ├── cmake_clean.cmake
+│   │       │   │   │   ├── depend.internal
+│   │       │   │   │   ├── depend.make
+│   │       │   │   │   ├── flags.make
+│   │       │   │   │   ├── g2o
+│   │       │   │   │   │   ├── core
+│   │       │   │   │   │   │   ├── batch_stats.cpp.o
+│   │       │   │   │   │   │   ├── cache.cpp.o
+│   │       │   │   │   │   │   ├── estimate_propagator.cpp.o
+│   │       │   │   │   │   │   ├── factory.cpp.o
+│   │       │   │   │   │   │   ├── hyper_dijkstra.cpp.o
+│   │       │   │   │   │   │   ├── hyper_graph.cpp.o
+│   │       │   │   │   │   │   ├── hyper_graph_action.cpp.o
+│   │       │   │   │   │   │   ├── jacobian_workspace.cpp.o
+│   │       │   │   │   │   │   ├── marginal_covariance_cholesky.cpp.o
+│   │       │   │   │   │   │   ├── matrix_structure.cpp.o
+│   │       │   │   │   │   │   ├── optimizable_graph.cpp.o
+│   │       │   │   │   │   │   ├── optimization_algorithm.cpp.o
+│   │       │   │   │   │   │   ├── optimization_algorithm_factory.cpp.o
+│   │       │   │   │   │   │   ├── optimization_algorithm_levenberg.cpp.o
+│   │       │   │   │   │   │   ├── optimization_algorithm_with_hessian.cpp.o
+│   │       │   │   │   │   │   ├── parameter.cpp.o
+│   │       │   │   │   │   │   ├── parameter_container.cpp.o
+│   │       │   │   │   │   │   ├── robust_kernel.cpp.o
+│   │       │   │   │   │   │   ├── robust_kernel_factory.cpp.o
+│   │       │   │   │   │   │   ├── robust_kernel_impl.cpp.o
+│   │       │   │   │   │   │   ├── solver.cpp.o
+│   │       │   │   │   │   │   └── sparse_optimizer.cpp.o
+│   │       │   │   │   │   ├── stuff
+│   │       │   │   │   │   │   ├── os_specific.c.o
+│   │       │   │   │   │   │   ├── property.cpp.o
+│   │       │   │   │   │   │   ├── string_tools.cpp.o
+│   │       │   │   │   │   │   └── timeutil.cpp.o
+│   │       │   │   │   │   └── types
+│   │       │   │   │   │       ├── types_sba.cpp.o
+│   │       │   │   │   │       ├── types_seven_dof_expmap.cpp.o
+│   │       │   │   │   │       └── types_six_dof_expmap.cpp.o
+│   │       │   │   │   ├── link.txt
+│   │       │   │   │   └── progress.make
+│   │       │   │   └── progress.marks
+│   │       │   ├── Makefile
+│   │       │   └── cmake_install.cmake
+│   │       ├── cmake_modules
+│   │       │   ├── FindBLAS.cmake
+│   │       │   ├── FindEigen3.cmake
+│   │       │   └── FindLAPACK.cmake
+│   │       ├── config.h
+│   │       ├── config.h.in
+│   │       ├── g2o
+│   │       │   ├── core
+│   │       │   │   ├── base_binary_edge.h
+│   │       │   │   ├── base_binary_edge.hpp
+│   │       │   │   ├── base_edge.h
+│   │       │   │   ├── base_multi_edge.h
+│   │       │   │   ├── base_multi_edge.hpp
+│   │       │   │   ├── base_unary_edge.h
+│   │       │   │   ├── base_unary_edge.hpp
+│   │       │   │   ├── base_vertex.h
+│   │       │   │   ├── base_vertex.hpp
+│   │       │   │   ├── batch_stats.cpp
+│   │       │   │   ├── batch_stats.h
+│   │       │   │   ├── block_solver.h
+│   │       │   │   ├── block_solver.hpp
+│   │       │   │   ├── cache.cpp
+│   │       │   │   ├── cache.h
+│   │       │   │   ├── creators.h
+│   │       │   │   ├── eigen_types.h
+│   │       │   │   ├── estimate_propagator.cpp
+│   │       │   │   ├── estimate_propagator.h
+│   │       │   │   ├── factory.cpp
+│   │       │   │   ├── factory.h
+│   │       │   │   ├── hyper_dijkstra.cpp
+│   │       │   │   ├── hyper_dijkstra.h
+│   │       │   │   ├── hyper_graph.cpp
+│   │       │   │   ├── hyper_graph.h
+│   │       │   │   ├── hyper_graph_action.cpp
+│   │       │   │   ├── hyper_graph_action.h
+│   │       │   │   ├── jacobian_workspace.cpp
+│   │       │   │   ├── jacobian_workspace.h
+│   │       │   │   ├── linear_solver.h
+│   │       │   │   ├── marginal_covariance_cholesky.cpp
+│   │       │   │   ├── marginal_covariance_cholesky.h
+│   │       │   │   ├── matrix_operations.h
+│   │       │   │   ├── matrix_structure.cpp
+│   │       │   │   ├── matrix_structure.h
+│   │       │   │   ├── openmp_mutex.h
+│   │       │   │   ├── optimizable_graph.cpp
+│   │       │   │   ├── optimizable_graph.h
+│   │       │   │   ├── optimization_algorithm.cpp
+│   │       │   │   ├── optimization_algorithm.h
+│   │       │   │   ├── optimization_algorithm_dogleg.cpp
+│   │       │   │   ├── optimization_algorithm_dogleg.h
+│   │       │   │   ├── optimization_algorithm_factory.cpp
+│   │       │   │   ├── optimization_algorithm_factory.h
+│   │       │   │   ├── optimization_algorithm_gauss_newton.cpp
+│   │       │   │   ├── optimization_algorithm_gauss_newton.h
+│   │       │   │   ├── optimization_algorithm_levenberg.cpp
+│   │       │   │   ├── optimization_algorithm_levenberg.h
+│   │       │   │   ├── optimization_algorithm_property.h
+│   │       │   │   ├── optimization_algorithm_with_hessian.cpp
+│   │       │   │   ├── optimization_algorithm_with_hessian.h
+│   │       │   │   ├── parameter.cpp
+│   │       │   │   ├── parameter.h
+│   │       │   │   ├── parameter_container.cpp
+│   │       │   │   ├── parameter_container.h
+│   │       │   │   ├── robust_kernel.cpp
+│   │       │   │   ├── robust_kernel.h
+│   │       │   │   ├── robust_kernel_factory.cpp
+│   │       │   │   ├── robust_kernel_factory.h
+│   │       │   │   ├── robust_kernel_impl.cpp
+│   │       │   │   ├── robust_kernel_impl.h
+│   │       │   │   ├── solver.cpp
+│   │       │   │   ├── solver.h
+│   │       │   │   ├── sparse_block_matrix.h
+│   │       │   │   ├── sparse_block_matrix.hpp
+│   │       │   │   ├── sparse_block_matrix_ccs.h
+│   │       │   │   ├── sparse_block_matrix_diagonal.h
+│   │       │   │   ├── sparse_block_matrix_test.cpp
+│   │       │   │   ├── sparse_optimizer.cpp
+│   │       │   │   └── sparse_optimizer.h
+│   │       │   ├── solvers
+│   │       │   │   ├── linear_solver_dense.h
+│   │       │   │   └── linear_solver_eigen.h
+│   │       │   ├── stuff
+│   │       │   │   ├── color_macros.h
+│   │       │   │   ├── macros.h
+│   │       │   │   ├── misc.h
+│   │       │   │   ├── os_specific.c
+│   │       │   │   ├── os_specific.h
+│   │       │   │   ├── property.cpp
+│   │       │   │   ├── property.h
+│   │       │   │   ├── string_tools.cpp
+│   │       │   │   ├── string_tools.h
+│   │       │   │   ├── timeutil.cpp
+│   │       │   │   └── timeutil.h
+│   │       │   └── types
+│   │       │       ├── se3_ops.h
+│   │       │       ├── se3_ops.hpp
+│   │       │       ├── se3quat.h
+│   │       │       ├── sim3.h
+│   │       │       ├── types_sba.cpp
+│   │       │       ├── types_sba.h
+│   │       │       ├── types_seven_dof_expmap.cpp
+│   │       │       ├── types_seven_dof_expmap.h
+│   │       │       ├── types_six_dof_expmap.cpp
+│   │       │       └── types_six_dof_expmap.h
+│   │       ├── lib
+│   │       │   └── libg2o.so
+│   │       └── license-bsd.txt
+│   ├── Vocabulary
+│   │   ├── ORBvoc.txt
+│   │   └── ORBvoc.txt.tar.gz
+│   ├── build.sh
+│   ├── build_ros.sh
+│   ├── cmake_modules
+│   │   └── FindEigen3.cmake
+│   ├── include
+│   │   ├── Converter.h
+│   │   ├── Eigen
+│   │   │   ├── Cholesky
+│   │   │   ├── CholmodSupport
+│   │   │   ├── Core
+│   │   │   ├── Dense
+│   │   │   ├── Eigen
+│   │   │   ├── Eigenvalues
+│   │   │   ├── Geometry
+│   │   │   ├── Householder
+│   │   │   ├── IterativeLinearSolvers
+│   │   │   ├── Jacobi
+│   │   │   ├── KLUSupport
+│   │   │   ├── LU
+│   │   │   ├── MetisSupport
+│   │   │   ├── OrderingMethods
+│   │   │   ├── PaStiXSupport
+│   │   │   ├── PardisoSupport
+│   │   │   ├── QR
+│   │   │   ├── QtAlignedMalloc
+│   │   │   ├── SPQRSupport
+│   │   │   ├── SVD
+│   │   │   ├── Sparse
+│   │   │   ├── SparseCholesky
+│   │   │   ├── SparseCore
+│   │   │   ├── SparseLU
+│   │   │   ├── SparseQR
+│   │   │   ├── StdDeque
+│   │   │   ├── StdList
+│   │   │   ├── StdVector
+│   │   │   ├── SuperLUSupport
+│   │   │   ├── UmfPackSupport
+│   │   │   └── src
+│   │   │       ├── Cholesky
+│   │   │       │   ├── LDLT.h
+│   │   │       │   ├── LLT.h
+│   │   │       │   └── LLT_LAPACKE.h
+│   │   │       ├── CholmodSupport
+│   │   │       │   └── CholmodSupport.h
+│   │   │       ├── Core
+│   │   │       │   ├── ArithmeticSequence.h
+│   │   │       │   ├── Array.h
+│   │   │       │   ├── ArrayBase.h
+│   │   │       │   ├── ArrayWrapper.h
+│   │   │       │   ├── Assign.h
+│   │   │       │   ├── AssignEvaluator.h
+│   │   │       │   ├── Assign_MKL.h
+│   │   │       │   ├── BandMatrix.h
+│   │   │       │   ├── Block.h
+│   │   │       │   ├── BooleanRedux.h
+│   │   │       │   ├── CommaInitializer.h
+│   │   │       │   ├── ConditionEstimator.h
+│   │   │       │   ├── CoreEvaluators.h
+│   │   │       │   ├── CoreIterators.h
+│   │   │       │   ├── CwiseBinaryOp.h
+│   │   │       │   ├── CwiseNullaryOp.h
+│   │   │       │   ├── CwiseTernaryOp.h
+│   │   │       │   ├── CwiseUnaryOp.h
+│   │   │       │   ├── CwiseUnaryView.h
+│   │   │       │   ├── DenseBase.h
+│   │   │       │   ├── DenseCoeffsBase.h
+│   │   │       │   ├── DenseStorage.h
+│   │   │       │   ├── Diagonal.h
+│   │   │       │   ├── DiagonalMatrix.h
+│   │   │       │   ├── DiagonalProduct.h
+│   │   │       │   ├── Dot.h
+│   │   │       │   ├── EigenBase.h
+│   │   │       │   ├── ForceAlignedAccess.h
+│   │   │       │   ├── Fuzzy.h
+│   │   │       │   ├── GeneralProduct.h
+│   │   │       │   ├── GenericPacketMath.h
+│   │   │       │   ├── GlobalFunctions.h
+│   │   │       │   ├── IO.h
+│   │   │       │   ├── IndexedView.h
+│   │   │       │   ├── Inverse.h
+│   │   │       │   ├── Map.h
+│   │   │       │   ├── MapBase.h
+│   │   │       │   ├── MathFunctions.h
+│   │   │       │   ├── MathFunctionsImpl.h
+│   │   │       │   ├── Matrix.h
+│   │   │       │   ├── MatrixBase.h
+│   │   │       │   ├── NestByValue.h
+│   │   │       │   ├── NoAlias.h
+│   │   │       │   ├── NumTraits.h
+│   │   │       │   ├── PartialReduxEvaluator.h
+│   │   │       │   ├── PermutationMatrix.h
+│   │   │       │   ├── PlainObjectBase.h
+│   │   │       │   ├── Product.h
+│   │   │       │   ├── ProductEvaluators.h
+│   │   │       │   ├── Random.h
+│   │   │       │   ├── Redux.h
+│   │   │       │   ├── Ref.h
+│   │   │       │   ├── Replicate.h
+│   │   │       │   ├── Reshaped.h
+│   │   │       │   ├── ReturnByValue.h
+│   │   │       │   ├── Reverse.h
+│   │   │       │   ├── Select.h
+│   │   │       │   ├── SelfAdjointView.h
+│   │   │       │   ├── SelfCwiseBinaryOp.h
+│   │   │       │   ├── Solve.h
+│   │   │       │   ├── SolveTriangular.h
+│   │   │       │   ├── SolverBase.h
+│   │   │       │   ├── StableNorm.h
+│   │   │       │   ├── StlIterators.h
+│   │   │       │   ├── Stride.h
+│   │   │       │   ├── Swap.h
+│   │   │       │   ├── Transpose.h
+│   │   │       │   ├── Transpositions.h
+│   │   │       │   ├── TriangularMatrix.h
+│   │   │       │   ├── VectorBlock.h
+│   │   │       │   ├── VectorwiseOp.h
+│   │   │       │   ├── Visitor.h
+│   │   │       │   ├── arch
+│   │   │       │   │   ├── AVX
+│   │   │       │   │   │   ├── Complex.h
+│   │   │       │   │   │   ├── MathFunctions.h
+│   │   │       │   │   │   ├── PacketMath.h
+│   │   │       │   │   │   └── TypeCasting.h
+│   │   │       │   │   ├── AVX512
+│   │   │       │   │   │   ├── Complex.h
+│   │   │       │   │   │   ├── MathFunctions.h
+│   │   │       │   │   │   ├── PacketMath.h
+│   │   │       │   │   │   └── TypeCasting.h
+│   │   │       │   │   ├── AltiVec
+│   │   │       │   │   │   ├── Complex.h
+│   │   │       │   │   │   ├── MathFunctions.h
+│   │   │       │   │   │   ├── MatrixProduct.h
+│   │   │       │   │   │   ├── MatrixProductCommon.h
+│   │   │       │   │   │   ├── MatrixProductMMA.h
+│   │   │       │   │   │   └── PacketMath.h
+│   │   │       │   │   ├── CUDA
+│   │   │       │   │   │   └── Complex.h
+│   │   │       │   │   ├── Default
+│   │   │       │   │   │   ├── BFloat16.h
+│   │   │       │   │   │   ├── ConjHelper.h
+│   │   │       │   │   │   ├── GenericPacketMathFunctions.h
+│   │   │       │   │   │   ├── GenericPacketMathFunctionsFwd.h
+│   │   │       │   │   │   ├── Half.h
+│   │   │       │   │   │   ├── Settings.h
+│   │   │       │   │   │   └── TypeCasting.h
+│   │   │       │   │   ├── GPU
+│   │   │       │   │   │   ├── MathFunctions.h
+│   │   │       │   │   │   ├── PacketMath.h
+│   │   │       │   │   │   └── TypeCasting.h
+│   │   │       │   │   ├── HIP
+│   │   │       │   │   │   └── hcc
+│   │   │       │   │   │       └── math_constants.h
+│   │   │       │   │   ├── MSA
+│   │   │       │   │   │   ├── Complex.h
+│   │   │       │   │   │   ├── MathFunctions.h
+│   │   │       │   │   │   └── PacketMath.h
+│   │   │       │   │   ├── NEON
+│   │   │       │   │   │   ├── Complex.h
+│   │   │       │   │   │   ├── GeneralBlockPanelKernel.h
+│   │   │       │   │   │   ├── MathFunctions.h
+│   │   │       │   │   │   ├── PacketMath.h
+│   │   │       │   │   │   └── TypeCasting.h
+│   │   │       │   │   ├── SSE
+│   │   │       │   │   │   ├── Complex.h
+│   │   │       │   │   │   ├── MathFunctions.h
+│   │   │       │   │   │   ├── PacketMath.h
+│   │   │       │   │   │   └── TypeCasting.h
+│   │   │       │   │   ├── SVE
+│   │   │       │   │   │   ├── MathFunctions.h
+│   │   │       │   │   │   ├── PacketMath.h
+│   │   │       │   │   │   └── TypeCasting.h
+│   │   │       │   │   ├── SYCL
+│   │   │       │   │   │   ├── InteropHeaders.h
+│   │   │       │   │   │   ├── MathFunctions.h
+│   │   │       │   │   │   ├── PacketMath.h
+│   │   │       │   │   │   ├── SyclMemoryModel.h
+│   │   │       │   │   │   └── TypeCasting.h
+│   │   │       │   │   └── ZVector
+│   │   │       │   │       ├── Complex.h
+│   │   │       │   │       ├── MathFunctions.h
+│   │   │       │   │       └── PacketMath.h
+│   │   │       │   ├── functors
+│   │   │       │   │   ├── AssignmentFunctors.h
+│   │   │       │   │   ├── BinaryFunctors.h
+│   │   │       │   │   ├── NullaryFunctors.h
+│   │   │       │   │   ├── StlFunctors.h
+│   │   │       │   │   ├── TernaryFunctors.h
+│   │   │       │   │   └── UnaryFunctors.h
+│   │   │       │   ├── products
+│   │   │       │   │   ├── GeneralBlockPanelKernel.h
+│   │   │       │   │   ├── GeneralMatrixMatrix.h
+│   │   │       │   │   ├── GeneralMatrixMatrixTriangular.h
+│   │   │       │   │   ├── GeneralMatrixMatrixTriangular_BLAS.h
+│   │   │       │   │   ├── GeneralMatrixMatrix_BLAS.h
+│   │   │       │   │   ├── GeneralMatrixVector.h
+│   │   │       │   │   ├── GeneralMatrixVector_BLAS.h
+│   │   │       │   │   ├── Parallelizer.h
+│   │   │       │   │   ├── SelfadjointMatrixMatrix.h
+│   │   │       │   │   ├── SelfadjointMatrixMatrix_BLAS.h
+│   │   │       │   │   ├── SelfadjointMatrixVector.h
+│   │   │       │   │   ├── SelfadjointMatrixVector_BLAS.h
+│   │   │       │   │   ├── SelfadjointProduct.h
+│   │   │       │   │   ├── SelfadjointRank2Update.h
+│   │   │       │   │   ├── TriangularMatrixMatrix.h
+│   │   │       │   │   ├── TriangularMatrixMatrix_BLAS.h
+│   │   │       │   │   ├── TriangularMatrixVector.h
+│   │   │       │   │   ├── TriangularMatrixVector_BLAS.h
+│   │   │       │   │   ├── TriangularSolverMatrix.h
+│   │   │       │   │   ├── TriangularSolverMatrix_BLAS.h
+│   │   │       │   │   └── TriangularSolverVector.h
+│   │   │       │   └── util
+│   │   │       │       ├── BlasUtil.h
+│   │   │       │       ├── ConfigureVectorization.h
+│   │   │       │       ├── Constants.h
+│   │   │       │       ├── DisableStupidWarnings.h
+│   │   │       │       ├── ForwardDeclarations.h
+│   │   │       │       ├── IndexedViewHelper.h
+│   │   │       │       ├── IntegralConstant.h
+│   │   │       │       ├── MKL_support.h
+│   │   │       │       ├── Macros.h
+│   │   │       │       ├── Memory.h
+│   │   │       │       ├── Meta.h
+│   │   │       │       ├── NonMPL2.h
+│   │   │       │       ├── ReenableStupidWarnings.h
+│   │   │       │       ├── ReshapedHelper.h
+│   │   │       │       ├── StaticAssert.h
+│   │   │       │       ├── SymbolicIndex.h
+│   │   │       │       └── XprHelper.h
+│   │   │       ├── Eigenvalues
+│   │   │       │   ├── ComplexEigenSolver.h
+│   │   │       │   ├── ComplexSchur.h
+│   │   │       │   ├── ComplexSchur_LAPACKE.h
+│   │   │       │   ├── EigenSolver.h
+│   │   │       │   ├── GeneralizedEigenSolver.h
+│   │   │       │   ├── GeneralizedSelfAdjointEigenSolver.h
+│   │   │       │   ├── HessenbergDecomposition.h
+│   │   │       │   ├── MatrixBaseEigenvalues.h
+│   │   │       │   ├── RealQZ.h
+│   │   │       │   ├── RealSchur.h
+│   │   │       │   ├── RealSchur_LAPACKE.h
+│   │   │       │   ├── SelfAdjointEigenSolver.h
+│   │   │       │   ├── SelfAdjointEigenSolver_LAPACKE.h
+│   │   │       │   └── Tridiagonalization.h
+│   │   │       ├── Geometry
+│   │   │       │   ├── AlignedBox.h
+│   │   │       │   ├── AngleAxis.h
+│   │   │       │   ├── EulerAngles.h
+│   │   │       │   ├── Homogeneous.h
+│   │   │       │   ├── Hyperplane.h
+│   │   │       │   ├── OrthoMethods.h
+│   │   │       │   ├── ParametrizedLine.h
+│   │   │       │   ├── Quaternion.h
+│   │   │       │   ├── Rotation2D.h
+│   │   │       │   ├── RotationBase.h
+│   │   │       │   ├── Scaling.h
+│   │   │       │   ├── Transform.h
+│   │   │       │   ├── Translation.h
+│   │   │       │   ├── Umeyama.h
+│   │   │       │   └── arch
+│   │   │       │       └── Geometry_SIMD.h
+│   │   │       ├── Householder
+│   │   │       │   ├── BlockHouseholder.h
+│   │   │       │   ├── Householder.h
+│   │   │       │   └── HouseholderSequence.h
+│   │   │       ├── IterativeLinearSolvers
+│   │   │       │   ├── BasicPreconditioners.h
+│   │   │       │   ├── BiCGSTAB.h
+│   │   │       │   ├── ConjugateGradient.h
+│   │   │       │   ├── IncompleteCholesky.h
+│   │   │       │   ├── IncompleteLUT.h
+│   │   │       │   ├── IterativeSolverBase.h
+│   │   │       │   ├── LeastSquareConjugateGradient.h
+│   │   │       │   └── SolveWithGuess.h
+│   │   │       ├── Jacobi
+│   │   │       │   └── Jacobi.h
+│   │   │       ├── KLUSupport
+│   │   │       │   └── KLUSupport.h
+│   │   │       ├── LU
+│   │   │       │   ├── Determinant.h
+│   │   │       │   ├── FullPivLU.h
+│   │   │       │   ├── InverseImpl.h
+│   │   │       │   ├── PartialPivLU.h
+│   │   │       │   ├── PartialPivLU_LAPACKE.h
+│   │   │       │   └── arch
+│   │   │       │       └── InverseSize4.h
+│   │   │       ├── MetisSupport
+│   │   │       │   └── MetisSupport.h
+│   │   │       ├── OrderingMethods
+│   │   │       │   ├── Amd.h
+│   │   │       │   ├── Eigen_Colamd.h
+│   │   │       │   └── Ordering.h
+│   │   │       ├── PaStiXSupport
+│   │   │       │   └── PaStiXSupport.h
+│   │   │       ├── PardisoSupport
+│   │   │       │   └── PardisoSupport.h
+│   │   │       ├── QR
+│   │   │       │   ├── ColPivHouseholderQR.h
+│   │   │       │   ├── ColPivHouseholderQR_LAPACKE.h
+│   │   │       │   ├── CompleteOrthogonalDecomposition.h
+│   │   │       │   ├── FullPivHouseholderQR.h
+│   │   │       │   ├── HouseholderQR.h
+│   │   │       │   └── HouseholderQR_LAPACKE.h
+│   │   │       ├── SPQRSupport
+│   │   │       │   └── SuiteSparseQRSupport.h
+│   │   │       ├── SVD
+│   │   │       │   ├── BDCSVD.h
+│   │   │       │   ├── JacobiSVD.h
+│   │   │       │   ├── JacobiSVD_LAPACKE.h
+│   │   │       │   ├── SVDBase.h
+│   │   │       │   └── UpperBidiagonalization.h
+│   │   │       ├── SparseCholesky
+│   │   │       │   ├── SimplicialCholesky.h
+│   │   │       │   └── SimplicialCholesky_impl.h
+│   │   │       ├── SparseCore
+│   │   │       │   ├── AmbiVector.h
+│   │   │       │   ├── CompressedStorage.h
+│   │   │       │   ├── ConservativeSparseSparseProduct.h
+│   │   │       │   ├── MappedSparseMatrix.h
+│   │   │       │   ├── SparseAssign.h
+│   │   │       │   ├── SparseBlock.h
+│   │   │       │   ├── SparseColEtree.h
+│   │   │       │   ├── SparseCompressedBase.h
+│   │   │       │   ├── SparseCwiseBinaryOp.h
+│   │   │       │   ├── SparseCwiseUnaryOp.h
+│   │   │       │   ├── SparseDenseProduct.h
+│   │   │       │   ├── SparseDiagonalProduct.h
+│   │   │       │   ├── SparseDot.h
+│   │   │       │   ├── SparseFuzzy.h
+│   │   │       │   ├── SparseMap.h
+│   │   │       │   ├── SparseMatrix.h
+│   │   │       │   ├── SparseMatrixBase.h
+│   │   │       │   ├── SparsePermutation.h
+│   │   │       │   ├── SparseProduct.h
+│   │   │       │   ├── SparseRedux.h
+│   │   │       │   ├── SparseRef.h
+│   │   │       │   ├── SparseSelfAdjointView.h
+│   │   │       │   ├── SparseSolverBase.h
+│   │   │       │   ├── SparseSparseProductWithPruning.h
+│   │   │       │   ├── SparseTranspose.h
+│   │   │       │   ├── SparseTriangularView.h
+│   │   │       │   ├── SparseUtil.h
+│   │   │       │   ├── SparseVector.h
+│   │   │       │   ├── SparseView.h
+│   │   │       │   └── TriangularSolver.h
+│   │   │       ├── SparseLU
+│   │   │       │   ├── SparseLU.h
+│   │   │       │   ├── SparseLUImpl.h
+│   │   │       │   ├── SparseLU_Memory.h
+│   │   │       │   ├── SparseLU_Structs.h
+│   │   │       │   ├── SparseLU_SupernodalMatrix.h
+│   │   │       │   ├── SparseLU_Utils.h
+│   │   │       │   ├── SparseLU_column_bmod.h
+│   │   │       │   ├── SparseLU_column_dfs.h
+│   │   │       │   ├── SparseLU_copy_to_ucol.h
+│   │   │       │   ├── SparseLU_gemm_kernel.h
+│   │   │       │   ├── SparseLU_heap_relax_snode.h
+│   │   │       │   ├── SparseLU_kernel_bmod.h
+│   │   │       │   ├── SparseLU_panel_bmod.h
+│   │   │       │   ├── SparseLU_panel_dfs.h
+│   │   │       │   ├── SparseLU_pivotL.h
+│   │   │       │   ├── SparseLU_pruneL.h
+│   │   │       │   └── SparseLU_relax_snode.h
+│   │   │       ├── SparseQR
+│   │   │       │   └── SparseQR.h
+│   │   │       ├── StlSupport
+│   │   │       │   ├── StdDeque.h
+│   │   │       │   ├── StdList.h
+│   │   │       │   ├── StdVector.h
+│   │   │       │   └── details.h
+│   │   │       ├── SuperLUSupport
+│   │   │       │   └── SuperLUSupport.h
+│   │   │       ├── UmfPackSupport
+│   │   │       │   └── UmfPackSupport.h
+│   │   │       ├── misc
+│   │   │       │   ├── Image.h
+│   │   │       │   ├── Kernel.h
+│   │   │       │   ├── RealSvd2x2.h
+│   │   │       │   ├── blas.h
+│   │   │       │   ├── lapack.h
+│   │   │       │   ├── lapacke.h
+│   │   │       │   └── lapacke_mangling.h
+│   │   │       └── plugins
+│   │   │           ├── ArrayCwiseBinaryOps.h
+│   │   │           ├── ArrayCwiseUnaryOps.h
+│   │   │           ├── BlockMethods.h
+│   │   │           ├── CommonCwiseBinaryOps.h
+│   │   │           ├── CommonCwiseUnaryOps.h
+│   │   │           ├── IndexedViewMethods.h
+│   │   │           ├── MatrixCwiseBinaryOps.h
+│   │   │           ├── MatrixCwiseUnaryOps.h
+│   │   │           └── ReshapedMethods.h
+│   │   ├── Frame.h
+│   │   ├── FrameDrawer.h
+│   │   ├── Initializer.h
+│   │   ├── KeyFrame.h
+│   │   ├── KeyFrameDatabase.h
+│   │   ├── LocalMapping.h
+│   │   ├── LoopClosing.h
+│   │   ├── Map.h
+│   │   ├── MapDrawer.h
+│   │   ├── MapPoint.h
+│   │   ├── ORBVocabulary.h
+│   │   ├── ORBextractor.h
+│   │   ├── ORBmatcher.h
+│   │   ├── Optimizer.h
+│   │   ├── PnPsolver.h
+│   │   ├── Sim3Solver.h
+│   │   ├── System.h
+│   │   ├── Tracking.h
+│   │   └── Viewer.h
+│   ├── lib
+│   │   └── libORB_SLAM2.so
+│   └── src
+│       ├── Converter.cc
+│       ├── Frame.cc
+│       ├── FrameDrawer.cc
+│       ├── Initializer.cc
+│       ├── KeyFrame.cc
+│       ├── KeyFrameDatabase.cc
+│       ├── LocalMapping.cc
+│       ├── LoopClosing.cc
+│       ├── Map.cc
+│       ├── MapDrawer.cc
+│       ├── MapPoint.cc
+│       ├── ORBextractor.cc
+│       ├── ORBmatcher.cc
+│       ├── Optimizer.cc
+│       ├── PnPsolver.cc
+│       ├── Sim3Solver.cc
+│       ├── System.cc
+│       ├── Tracking.cc
+│       └── Viewer.cc
+├── README.md
+└── directory_composition.txt
+
+166 directories, 903 files
