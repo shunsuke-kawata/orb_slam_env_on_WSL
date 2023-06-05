@@ -20,3 +20,8 @@ rosrun usb_cam usb_cam_node /usb_cam/image_raw:=/camera/image_raw
 #./ORB_SLAM2/ 内にいることを確認して実行する
 rosrun ORB_SLAM2 Mono Vocabulary/ORBvoc.txt Examples/Monocular/TUM1.yaml 
 ```
+
+## 取得したい結果
+
+``` ./ORB_SLAM2/KeyFrameTrajectory.txt```　に保存されていると考えられる
+

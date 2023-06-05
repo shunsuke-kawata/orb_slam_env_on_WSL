@@ -378,6 +378,7 @@ void System::SaveTrajectoryTUM(const string &filename)
     }
     f.close();
     cout << endl << "trajectory saved!" << endl;
+    cout<<endl<<"SaveTrajectoryTUM"<<endl;
 }
 
 
@@ -409,12 +410,12 @@ void System::SaveKeyFrameTrajectoryTUM(const string &filename)
         vector<float> q = Converter::toQuaternion(R);
         cv::Mat t = pKF->GetCameraCenter();
         f << setprecision(6) << pKF->mTimeStamp << setprecision(7) << " " << t.at<float>(0) << " " << t.at<float>(1) << " " << t.at<float>(2)
-          << " " << q[0] << " " << q[1] << " " << q[2] << " " << q[3] << endl;
+          << " " << q[0] << " " << q[1] << " " << q[2] << " " << q[3] << "sign"<<endl;
 
     }
 
     f.close();
-    cout << endl << "trajectory saved!" << endl;
+    cout << endl << "SaveKeyFrameTrajectoryTUM trajectory saved!" << endl;
 }
 
 void System::SaveTrajectoryKITTI(const string &filename)
@@ -470,6 +471,7 @@ void System::SaveTrajectoryKITTI(const string &filename)
     }
     f.close();
     cout << endl << "trajectory saved!" << endl;
+    cout<<endl<<"SaveTrajectoryKITTI"<<endl;
 }
 
 int System::GetTrackingState()
