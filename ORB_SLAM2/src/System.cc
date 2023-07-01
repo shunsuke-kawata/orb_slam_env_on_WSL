@@ -41,6 +41,8 @@ System::System(const string &strVocFile, const string &strSettingsFile, const eS
     "This is free software, and you are welcome to redistribute it" << endl <<
     "under certain conditions. See LICENSE.txt." << endl << endl;
 
+    cout<<"ver1"<<endl;
+
     if(mSensor==MONOCULAR)
         cout << "Monocular" << endl;
     else if(mSensor==STEREO)
@@ -58,7 +60,7 @@ System::System(const string &strVocFile, const string &strSettingsFile, const eS
 
 
     //Load ORB Vocabulary
-    cout << endl << "Loading ORB Vocabulary. This could take a while................" << endl;
+    cout << endl << "Loading ORB Vocabulary. This could take a while..." << endl;
 
     mpVocabulary = new ORBVocabulary();
     bool bVocLoad = mpVocabulary->loadFromTextFile(strVocFile);
@@ -214,8 +216,12 @@ cv::Mat System::TrackRGBD(const cv::Mat &im, const cv::Mat &depthmap, const doub
     return Tcw;
 }
 
+
+//フレーム毎で呼ばれている関数
+//ここでカメラ情報を取得→web通信して送信する
 cv::Mat System::TrackMonocular(const cv::Mat &im, const double &timestamp)
 {
+
     if(mSensor!=MONOCULAR)
     {
         cerr << "ERROR: you called TrackMonocular but input sensor was not set to Monocular." << endl;
@@ -408,7 +414,7 @@ void System::SaveKeyFrameTrajectoryTUM(const string &filename)
         vector<float> q = Converter::toQuaternion(R);
         cv::Mat t = pKF->GetCameraCenter();
         f << setprecision(6) << pKF->mTimeStamp << setprecision(7) << " " << t.at<float>(0) << " " << t.at<float>(1) << " " << t.at<float>(2)
-          << " " << q[0] << " " << q[1] << " " << q[2] << " " << q[3] << "sign"<<endl;
+          << " " << q[0] << " " << q[1] << " " << q[2] << " " << q[3]<<endl;
 
     }
 
