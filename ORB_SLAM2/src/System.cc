@@ -35,13 +35,14 @@ System::System(const string &strVocFile, const string &strSettingsFile, const eS
         mbDeactivateLocalizationMode(false)
 {
     // Output welcome message
-    cout << endl <<
-    "ORB-SLAM2 Copyright (C) 2014-2016 Raul Mur-Artal, University of Zaragoza." << endl <<
-    "This program comes with ABSOLUTELY NO WARRANTY;" << endl  <<
-    "This is free software, and you are welcome to redistribute it" << endl <<
-    "under certain conditions. See LICENSE.txt." << endl << endl;
+   
+    // "ORB-SLAM2 Copyright (C) 2014-2016 Raul Mur-Artal, University of Zaragoza." << endl <<
+    // "This program comes with ABSOLUTELY NO WARRANTY;" << endl  <<
+    // "This is free software, and you are welcome to redistribute it" << endl <<
+    // "under certain conditions. See LICENSE.txt." << endl << endl;
 
-    cout << "Input sensor was set to: ";
+    cout<<"test"<<endl;
+    cout<<"testtest"<<endl;
 
     if(mSensor==MONOCULAR)
         cout << "Monocular" << endl;
@@ -60,7 +61,7 @@ System::System(const string &strVocFile, const string &strSettingsFile, const eS
 
 
     //Load ORB Vocabulary
-    cout << endl << "Loading ORB Vocabulary. This could take a while..." << endl;
+    cout << endl << "Loading ORB Vocabulary. This could take a while................" << endl;
 
     mpVocabulary = new ORBVocabulary();
     bool bVocLoad = mpVocabulary->loadFromTextFile(strVocFile);
