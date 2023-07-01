@@ -36,13 +36,10 @@ System::System(const string &strVocFile, const string &strSettingsFile, const eS
 {
     // Output welcome message
    
-    // "ORB-SLAM2 Copyright (C) 2014-2016 Raul Mur-Artal, University of Zaragoza." << endl <<
-    // "This program comes with ABSOLUTELY NO WARRANTY;" << endl  <<
-    // "This is free software, and you are welcome to redistribute it" << endl <<
-    // "under certain conditions. See LICENSE.txt." << endl << endl;
-
-    cout<<"test"<<endl;
-    cout<<"testtest"<<endl;
+    cout<<"ORB-SLAM2 Copyright (C) 2014-2016 Raul Mur-Artal, University of Zaragoza." << endl <<
+    "This program comes with ABSOLUTELY NO WARRANTY;" << endl  <<
+    "This is free software, and you are welcome to redistribute it" << endl <<
+    "under certain conditions. See LICENSE.txt." << endl << endl;
 
     if(mSensor==MONOCULAR)
         cout << "Monocular" << endl;
