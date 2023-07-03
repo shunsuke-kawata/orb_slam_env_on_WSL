@@ -41,7 +41,7 @@ System::System(const string &strVocFile, const string &strSettingsFile, const eS
     "This is free software, and you are welcome to redistribute it" << endl <<
     "under certain conditions. See LICENSE.txt." << endl << endl;
 
-    cout<<"ver1"<<endl;
+    cout<<"ver2"<<endl;
 
     if(mSensor==MONOCULAR)
         cout << "Monocular" << endl;
@@ -262,8 +262,9 @@ cv::Mat System::TrackMonocular(const cv::Mat &im, const double &timestamp)
     }
     }
 
-    //フレームの位置情報が含まれている
+    //フレームの位置情報が含まれている変数
     cv::Mat Tcw = mpTracker->GrabImageMonocular(im,timestamp);
+    cout<<im<<endl; //この位置でWeb通信を行う
     unique_lock<mutex> lock2(mMutexState);
     mTrackingState = mpTracker->mState;
     mTrackedMapPoints = mpTracker->mCurrentFrame.mvpMapPoints;
