@@ -35,13 +35,13 @@ System::System(const string &strVocFile, const string &strSettingsFile, const eS
         mbDeactivateLocalizationMode(false)
 {
     // Output welcome message
-    cout << endl <<
-    "ORB-SLAM2 Copyright (C) 2014-2016 Raul Mur-Artal, University of Zaragoza." << endl <<
+   
+    cout<<"ORB-SLAM2 Copyright (C) 2014-2016 Raul Mur-Artal, University of Zaragoza." << endl <<
     "This program comes with ABSOLUTELY NO WARRANTY;" << endl  <<
     "This is free software, and you are welcome to redistribute it" << endl <<
     "under certain conditions. See LICENSE.txt." << endl << endl;
 
-    cout << "Input sensor was set to: ";
+    cout<<"ver2"<<endl;
 
     if(mSensor==MONOCULAR)
         cout << "Monocular" << endl;
@@ -216,8 +216,12 @@ cv::Mat System::TrackRGBD(const cv::Mat &im, const cv::Mat &depthmap, const doub
     return Tcw;
 }
 
+
+//フレーム毎で呼ばれている関数
+//ここでカメラ情報を取得→web通信して送信する
 cv::Mat System::TrackMonocular(const cv::Mat &im, const double &timestamp)
 {
+
     if(mSensor!=MONOCULAR)
     {
         cerr << "ERROR: you called TrackMonocular but input sensor was not set to Monocular." << endl;
@@ -258,8 +262,9 @@ cv::Mat System::TrackMonocular(const cv::Mat &im, const double &timestamp)
     }
     }
 
+    //フレームの位置情報が含まれている変数
     cv::Mat Tcw = mpTracker->GrabImageMonocular(im,timestamp);
-
+    cout<<im<<endl; //この位置でWeb通信を行う
     unique_lock<mutex> lock2(mMutexState);
     mTrackingState = mpTracker->mState;
     mTrackedMapPoints = mpTracker->mCurrentFrame.mvpMapPoints;
@@ -410,7 +415,7 @@ void System::SaveKeyFrameTrajectoryTUM(const string &filename)
         vector<float> q = Converter::toQuaternion(R);
         cv::Mat t = pKF->GetCameraCenter();
         f << setprecision(6) << pKF->mTimeStamp << setprecision(7) << " " << t.at<float>(0) << " " << t.at<float>(1) << " " << t.at<float>(2)
-          << " " << q[0] << " " << q[1] << " " << q[2] << " " << q[3] << "sign"<<endl;
+          << " " << q[0] << " " << q[1] << " " << q[2] << " " << q[3]<<endl;
 
     }
 
