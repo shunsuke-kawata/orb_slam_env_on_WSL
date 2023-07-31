@@ -48,7 +48,7 @@ int main(int argc, char **argv)
     LoadImages(strFile, vstrImageFilenames, vTimestamps);
 
     int nImages = vstrImageFilenames.size();
-
+    cout<<"create instance in mono_tum"<<endl;
     // Create SLAM system. It initializes all system threads and gets ready to process frames.
     ORB_SLAM2::System SLAM(argv[1],argv[2],ORB_SLAM2::System::MONOCULAR,true);
 

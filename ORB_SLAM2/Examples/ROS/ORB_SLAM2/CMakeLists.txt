@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.4.6)
 include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 
+project(ORB_SLAM2)
+
 rosbuild_init()
 
 IF(NOT ROS_BUILD_TYPE)
@@ -31,6 +33,7 @@ endif()
 
 LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/../../../cmake_modules)
 
+SET (OpenCV_DIR /usr/local/include/opencv)
 find_package(OpenCV 3.0 QUIET)
 if(NOT OpenCV_FOUND)
    find_package(OpenCV 2.4.3 QUIET)
@@ -43,11 +46,14 @@ find_package(Eigen3 3.1.0 REQUIRED NO_MODULE)
 find_package(Pangolin REQUIRED)
 
 include_directories(
+${OpenCV_LIBS}
 ${PROJECT_SOURCE_DIR}
 ${PROJECT_SOURCE_DIR}/../../../
 ${PROJECT_SOURCE_DIR}/../../../include
 ${Pangolin_INCLUDE_DIRS}
 ${EIGEN3_INCLUDE_DIR}
+-lboost_system
+-lopencv_core
 )
 
 set(LIBS
@@ -57,6 +63,7 @@ ${Pangolin_LIBRARIES}
 ${PROJECT_SOURCE_DIR}/../../../Thirdparty/DBoW2/lib/libDBoW2.so
 ${PROJECT_SOURCE_DIR}/../../../Thirdparty/g2o/lib/libg2o.so
 ${PROJECT_SOURCE_DIR}/../../../lib/libORB_SLAM2.so
+-lopencv_core
 -lboost_system
 
 )
@@ -68,6 +75,9 @@ src/ros_mono.cc
 
 target_link_libraries(Mono
 ${LIBS}
+${OpenCV_LIBS}
+-lopencv_core
+-lboost_system
 )
 
 # Node for monocular camera (Augmented Reality Demo)
@@ -79,6 +89,9 @@ src/AR/ViewerAR.cc
 
 target_link_libraries(MonoAR
 ${LIBS}
+${OpenCV_LIBS}
+-lopencv_core
+-lboost_system
 )
 
 # Node for stereo camera
@@ -88,6 +101,9 @@ src/ros_stereo.cc
 
 target_link_libraries(Stereo
 ${LIBS}
+${OpenCV_LIBS}
+-lopencv_core
+-lboost_system
 )
 
 # Node for RGB-D camera
@@ -97,5 +113,8 @@ src/ros_rgbd.cc
 
 target_link_libraries(RGBD
 ${LIBS}
+${OpenCV_LIBS}
+-lopencv_core
+-lboost_system
 )
 

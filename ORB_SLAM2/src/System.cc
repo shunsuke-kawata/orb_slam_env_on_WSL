@@ -50,8 +50,10 @@ System::System(const string &strVocFile, const string &strSettingsFile, const eS
     else if(mSensor==RGBD)
         cout << "RGB-D" << endl;
 
+    cout<<"open setting file"<<endl;
     //Check settings file
     cv::FileStorage fsSettings(strSettingsFile.c_str(), cv::FileStorage::READ);
+    cout<<"opened setting file"<<endl;
     if(!fsSettings.isOpened())
     {
        cerr << "Failed to open settings file at: " << strSettingsFile << endl;
