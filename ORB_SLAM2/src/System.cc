@@ -266,7 +266,7 @@ cv::Mat System::TrackMonocular(const cv::Mat &im, const double &timestamp)
 
     //フレームの位置情報が含まれている変数
     cv::Mat Tcw = mpTracker->GrabImageMonocular(im,timestamp);
-    cout<<im<<endl; //この位置でWeb通信を行う
+    
     unique_lock<mutex> lock2(mMutexState);
     mTrackingState = mpTracker->mState;
     mTrackedMapPoints = mpTracker->mCurrentFrame.mvpMapPoints;
