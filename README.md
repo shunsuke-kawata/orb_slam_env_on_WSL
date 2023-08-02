@@ -16,8 +16,21 @@
 - GUIアプリ(wslでlinuxGUIを使用するためのアプリケーション)
 - usb Webカメラ認識ツール
 
-## 追加インストールライブラリの インストール先
+## 追加ライブラリの インストール先
 - /usr/local/include/
+
+## 
+
+## wslにusb Webカメラを認識する
+```
+#numの部分にデバイスのナンバーを入力
+#PowerShellで実行
+usbipd wsl attach --busid (num)-(num)
+
+#wslで接続されているデバイスを確認
+#Ubuntuで実行
+lsusb
+```
 
 ## 実行方法
 
