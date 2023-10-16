@@ -30,6 +30,7 @@ usbipd wsl attach --busid (num)-(num)
 #wslで接続されているデバイスを確認
 #Ubuntuで実行
 lsusb
+sudo chmod 777 /dev/video*
 ```
 
 ## 実行方法
