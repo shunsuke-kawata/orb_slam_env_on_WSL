@@ -5,7 +5,7 @@ rm -rf build
 mkdir build
 cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j4
+make -j10
 
 cd ../../g2o
 
@@ -16,7 +16,7 @@ rm -rf build
 mkdir build
 cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j4
+make -j10
 
 cd ../../../
 
@@ -32,4 +32,4 @@ rm -rf build
 mkdir build
 cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j4
+make -j10

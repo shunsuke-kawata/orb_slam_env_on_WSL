@@ -1,23 +1,3 @@
-/**
-* This file is part of ORB-SLAM2.
-*
-* Copyright (C) 2014-2016 Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
-* For more information see <https://github.com/raulmur/ORB_SLAM2>
-*
-* ORB-SLAM2 is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* ORB-SLAM2 is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with ORB-SLAM2. If not, see <http://www.gnu.org/licenses/>.
-*/
-
 #include "MapDrawer.h"
 #include "MapPoint.h"
 #include "KeyFrame.h"
@@ -26,7 +6,6 @@
 
 namespace ORB_SLAM2
 {
-
 
 MapDrawer::MapDrawer(Map* pMap, const string &strSettingPath):mpMap(pMap)
 {
@@ -41,33 +20,79 @@ MapDrawer::MapDrawer(Map* pMap, const string &strSettingPath):mpMap(pMap)
 
 }
 
-void MapDrawer::DrawMapPoints()
+int MapDrawer::CountNearMapPoints(const bool bDrawCurrentPoints){
+    const vector<MapPoint *> &vpCurrentMPs  = mpMap->GetCurrentMapPoints(); 
+    if(bDrawCurrentPoints){
+        if (vpCurrentMPs.size()>0){
+            cv::Mat Rwc = mCameraPose.rowRange(0,3).colRange(0,3).t();
+            cv::Mat twc = -Rwc*mCameraPose.rowRange(0,3).col(3);
+            MapPoint* nearestP = mpMap->GetNearestMapPoint(vpCurrentMPs,twc);
+            cv::Mat nearestPPos = nearestP->GetWorldPos();
+            if(nearestP!=nullptr){
+                int sumOfNearPoints = 0;
+                for (size_t i = 0; i < vpCurrentMPs.size(); i++) {
+                    if(IsInCircle(nearestPPos,vpCurrentMPs[i]->GetWorldPos(),0.5)){
+                        sumOfNearPoints+=1;
+                    }
+                }
+                return sumOfNearPoints;
+            }
+        }
+    }
+    return -1;
+
+}
+void MapDrawer::DrawMapPoints(const bool bDrawCurrentPoints)
 {
     const vector<MapPoint*> &vpMPs = mpMap->GetAllMapPoints();
     const vector<MapPoint*> &vpRefMPs = mpMap->GetReferenceMapPoints();
-
+    const vector<MapPoint *> &vpCurrentMPs  = mpMap->GetCurrentMapPoints();   
+    
     set<MapPoint*> spRefMPs(vpRefMPs.begin(), vpRefMPs.end());
 
     if(vpMPs.empty())
         return;
-
-    glPointSize(mPointSize);
-    glBegin(GL_POINTS);
-    glColor3f(0.0,0.0,0.0);
-
-    for(size_t i=0, iend=vpMPs.size(); i<iend;i++)
+    
+    if (bDrawCurrentPoints)
     {
-        if(vpMPs[i]->isBad() || spRefMPs.count(vpMPs[i]))
-            continue;
-        cv::Mat pos = vpMPs[i]->GetWorldPos();
-        glVertex3f(pos.at<float>(0),pos.at<float>(1),pos.at<float>(2));
+        // Define points
+        glPointSize(mPointSize);
+        glBegin(GL_POINTS);
+        glColor3f(0.0, 1.0, 0.0);
+
+        //currentFrameに写っている点飲み描画する
+        for (std::vector<MapPoint *>::const_iterator i = vpCurrentMPs.begin(); i != vpCurrentMPs.end(); i++)
+        {
+            if ((*i)->isBad())
+                continue;
+            cv::Mat pos = (*i)->GetWorldPos();
+            glVertex3f(pos.at<float>(0), pos.at<float>(1), pos.at<float>(2));
+        }
+        glEnd();
     }
-    glEnd();
+
+    /*
+    もともとあった描画処理
+    重くなるのと必要ないので一旦削除
+    */
+    // 黒の点を描画している
+    // glPointSize(mPointSize);
+    // glBegin(GL_POINTS);
+    // glColor3f(0.0,0.0,0.0);
+    // for(size_t i=0, iend=vpMPs.size(); i<iend;i++)
+    // {
+    //     if(vpMPs[i]->isBad() || spRefMPs.count(vpMPs[i]))
+    //         continue;
+    //     cv::Mat pos = vpMPs[i]->GetWorldPos();
+    //     glVertex3f(pos.at<float>(0),pos.at<float>(1),pos.at<float>(2));
+    // }
+    // glEnd();
 
     glPointSize(mPointSize);
     glBegin(GL_POINTS);
     glColor3f(1.0,0.0,0.0);
 
+    //赤の点を描画している
     for(set<MapPoint*>::iterator sit=spRefMPs.begin(), send=spRefMPs.end(); sit!=send; sit++)
     {
         if((*sit)->isBad())
@@ -76,7 +101,6 @@ void MapDrawer::DrawMapPoints()
         glVertex3f(pos.at<float>(0),pos.at<float>(1),pos.at<float>(2));
 
     }
-
     glEnd();
 }
 

@@ -1,27 +1,9 @@
-/**
-* This file is part of ORB-SLAM2.
-*
-* Copyright (C) 2014-2016 Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
-* For more information see <https://github.com/raulmur/ORB_SLAM2>
-*
-* ORB-SLAM2 is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* ORB-SLAM2 is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with ORB-SLAM2. If not, see <http://www.gnu.org/licenses/>.
-*/
-
 #include "Viewer.h"
 #include <pangolin/pangolin.h>
 #include "unistd.h"
-
+#include <stdio.h>
+#include <iostream>
+#include <fstream>
 #include <mutex>
 
 namespace ORB_SLAM2
@@ -50,10 +32,33 @@ Viewer::Viewer(System* pSystem, FrameDrawer *pFrameDrawer, MapDrawer *pMapDrawer
     mViewpointY = fSettings["Viewer.ViewpointY"];
     mViewpointZ = fSettings["Viewer.ViewpointZ"];
     mViewpointF = fSettings["Viewer.ViewpointF"];
+    
 }
 
 void Viewer::Run()
 {
+    // /ORB_SLAM2/からの相対パスを記述
+    std::fstream armPositionTxt("../pos_txt/pos.txt");
+    float posX, posY, posZ;
+    if (armPositionTxt.is_open()) {
+        // ファイルが正常に開かれた場合に読み込みを行う
+        std::string line;
+        while (std::getline(armPositionTxt, line)) {
+            std::istringstream iss(line);
+            if (iss >> posX >> posY >> posZ) {
+                ;
+            } else {
+                // 読み込みが失敗した場合
+                cout<< "値の読み込みに失敗しました。" << endl;
+            }
+        }
+        // ファイルを閉じる
+        armPositionTxt.close();
+    } else {
+        // ファイルが開けなかった場合
+        cout<< "ファイルを開くことができませんでした。" <<endl;
+    }
+
     mbFinished = false;
     mbStopped = false;
 
@@ -66,12 +71,16 @@ void Viewer::Run()
     glEnable (GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    pangolin::CreatePanel("menu").SetBounds(0.0,1.0,0.0,pangolin::Attach::Pix(175));
+    pangolin::CreatePanel("menu").SetBounds(0.0, 1.0, 0.0, pangolin::Attach::Pix(185));
     pangolin::Var<bool> menuFollowCamera("menu.Follow Camera",true,true);
     pangolin::Var<bool> menuShowPoints("menu.Show Points",true,true);
+    pangolin::Var<bool> menuShowCurrentPoints("menu.Show Current Points", true, true);
     pangolin::Var<bool> menuShowKeyFrames("menu.Show KeyFrames",true,true);
     pangolin::Var<bool> menuShowGraph("menu.Show Graph",true,true);
     pangolin::Var<bool> menuLocalizationMode("menu.Localization Mode",false,true);
+    pangolin::Var<std::string> inputX("menu.X座標", std::to_string(posX));
+    pangolin::Var<std::string> inputY("menu.Y座標", std::to_string(posY));
+    pangolin::Var<std::string> inputZ("menu.Z座標", std::to_string(posZ));
     pangolin::Var<bool> menuReset("menu.Reset",false,false);
 
     // Define Camera Render Object (for view / scene browsing)
@@ -89,14 +98,24 @@ void Viewer::Run()
     Twc.SetIdentity();
 
     cv::namedWindow("ORB-SLAM2: Current Frame");
+    cv::moveWindow("ORB-SLAM2: Current Frame",1024,768);
 
     bool bFollow = true;
     bool bLocalizationMode = false;
 
+    //初期値
+    float userInputToWriteX = std::stof(inputX.Get());
+    float userInputToWriteY = std::stof(inputY.Get());
+    float userInputToWriteZ = std::stof(inputZ.Get());
+    //テキストで保持する最大値の初期値
+    int maxOfNearPoints = -1;
+
+    bool isValidXYZ = false;
+    float userInputX,userInputY,userInputZ;
+
     while(1)
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
         mpMapDrawer->GetCurrentOpenGLCameraMatrix(Twc);
 
         if(menuFollowCamera && bFollow)
@@ -128,10 +147,48 @@ void Viewer::Run()
         d_cam.Activate(s_cam);
         glClearColor(1.0f,1.0f,1.0f,1.0f);
         mpMapDrawer->DrawCurrentCamera(Twc);
-        if(menuShowKeyFrames || menuShowGraph)
+        if(menuShowKeyFrames || menuShowGraph){
             mpMapDrawer->DrawKeyFrames(menuShowKeyFrames,menuShowGraph);
-        if(menuShowPoints)
-            mpMapDrawer->DrawMapPoints();
+        }
+
+        //viewerから読み込む値と正しく読み込めているかを保持する変数
+        try {
+        //viewerの入力欄から取得した座標
+            userInputX = std::stof(inputX.Get());
+            userInputY = std::stof(inputY.Get());
+            userInputZ = std::stof(inputZ.Get());
+            isValidXYZ = true;
+        } catch (const std::invalid_argument& e) {
+        // 例外が発生した場合
+            cout << "Invalid Input: " << e.what() << std::endl;
+            isValidXYZ = false;
+        } catch (const std::out_of_range& e) {
+            // 例外が発生した場合
+            cout << "Out of range: " << e.what() << std::endl;
+            isValidXYZ = false;
+        }
+        //有効にxyzが入力されている場合実行する
+        if(isValidXYZ){
+            //入力による値の変更を検知
+            if(userInputToWriteX!=userInputX || userInputToWriteY!=userInputY || userInputToWriteZ!=userInputZ){
+                cout<<"write to file "<<maxOfNearPoints<<endl;
+                userInputToWriteX = userInputX;
+                userInputToWriteY = userInputY;
+                userInputToWriteZ = userInputZ;
+                //最大値を初期化と1秒間停止
+                maxOfNearPoints = -1;
+                std::this_thread::sleep_for(std::chrono::seconds(1));
+            }else{
+                int sumOfNearPoints = mpMapDrawer->CountNearMapPoints(menuShowCurrentPoints);
+                if(sumOfNearPoints>maxOfNearPoints){
+                    maxOfNearPoints = sumOfNearPoints;
+                }
+            }
+            
+        }
+        if(menuShowPoints){
+            mpMapDrawer->DrawMapPoints(menuShowCurrentPoints);
+        }
 
         pangolin::FinishFrame();
 
@@ -161,7 +218,6 @@ void Viewer::Run()
                 usleep(3000);
             }
         }
-
         if(CheckFinish())
             break;
     }
