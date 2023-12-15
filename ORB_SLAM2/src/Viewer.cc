@@ -46,7 +46,7 @@ void Viewer::Run()
     std::fstream armPositionTxt(armPositionTextPath);
     std::ofstream armPositionDatabaseTxt(armPositionDatabaseTextPath,std::ios::trunc);
     float posX, posY, posZ;
-    float radius = 0.5;
+    float radius = 0.3;
     if (armPositionTxt.is_open() && armPositionDatabaseTxt.is_open()) {
         // ファイルが正常に開かれた場合に読み込みを行う
         std::string line;
@@ -69,7 +69,7 @@ void Viewer::Run()
     mbFinished = false;
     mbStopped = false;
 
-    pangolin::CreateWindowAndBind("ORB-SLAM2: Map Viewer",1024,768);
+    pangolin::CreateWindowAndBind("ORB-SLAM2: Map Viewer",1160,840);
 
     // 3D Mouse handler requires depth testing to be enabled
     glEnable(GL_DEPTH_TEST);
@@ -78,36 +78,37 @@ void Viewer::Run()
     glEnable (GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    pangolin::CreatePanel("menu").SetBounds(0.0, 1.0, 0.0, pangolin::Attach::Pix(185));
+    pangolin::CreatePanel("menu").SetBounds(0.0, 1.0, 0.0, pangolin::Attach::Pix(200));
     pangolin::Var<bool> menuFollowCamera("menu.Follow Camera",true,true);
     pangolin::Var<bool> menuShowPoints("menu.Show Points",true,true);
     pangolin::Var<bool> menuShowCurrentPoints("menu.Show Current Points", true, true);
-    pangolin::Var<bool> menuShowRangeCircle("menu.Show Circle", true, true);
-    pangolin::Var<bool> menuShowKeyFrames("menu.Show KeyFrames",true,true);
-    pangolin::Var<bool> menuShowGraph("menu.Show Graph",true,true);
+    pangolin::Var<bool> menuShowRangeCircle("menu.Show Range", false, true);
+    pangolin::Var<bool> menuShowKeyFrames("menu.Show KeyFrames",false,true);
+    pangolin::Var<bool> menuShowGraph("menu.Show Graph",false,true);
     pangolin::Var<bool> menuLocalizationMode("menu.Localization Mode",false,true);
-    pangolin::Var<std::string> inputX("menu.Xcoordinate", std::to_string(posX));
-    pangolin::Var<std::string> inputY("menu.Ycoordinate", std::to_string(posY));
-    pangolin::Var<std::string> inputZ("menu.Zcoordinate", std::to_string(posZ));
+    pangolin::Var<std::string> inputX("menu.X coordinate", std::to_string(posX));
+    pangolin::Var<std::string> inputY("menu.Y coordinate", std::to_string(posY));
+    pangolin::Var<std::string> inputZ("menu.Z coordinate", std::to_string(posZ));
     pangolin::Var<std::string> inputRadius("menu.Radius", std::to_string(radius));
+    pangolin::Var<int> labelSumOfPoint("menu.Feature Points", 0);
     pangolin::Var<bool> menuReset("menu.Reset",false,false);
 
     // Define Camera Render Object (for view / scene browsing)
     pangolin::OpenGlRenderState s_cam(
-                pangolin::ProjectionMatrix(1024,768,mViewpointF,mViewpointF,512,389,0.1,1000),
+                pangolin::ProjectionMatrix(1160,840,mViewpointF,mViewpointF,512,389,0.1,1000),
                 pangolin::ModelViewLookAt(mViewpointX,mViewpointY,mViewpointZ, 0,0,0,0.0,-1.0, 0.0)
                 );
 
     // Add named OpenGL viewport to window and provide 3D Handler
     pangolin::View& d_cam = pangolin::CreateDisplay()
-            .SetBounds(0.0, 1.0, pangolin::Attach::Pix(175), 1.0, -1024.0f/768.0f)
+            .SetBounds(0.0, 1.0, pangolin::Attach::Pix(200), 1.0, -1024.0f/768.0f)
             .SetHandler(new pangolin::Handler3D(s_cam));
 
     pangolin::OpenGlMatrix Twc;
     Twc.SetIdentity();
 
     cv::namedWindow("ORB-SLAM2: Current Frame");
-    cv::moveWindow("ORB-SLAM2: Current Frame",1024,768);
+    cv::moveWindow("ORB-SLAM2: Current Frame",1160,840);
 
     bool bFollow = true;
     bool bLocalizationMode = false;
@@ -195,26 +196,26 @@ void Viewer::Run()
                 tmpArmPositionTxt<<fixed<<setprecision(2)<<userInputToWriteX<<" "<<userInputToWriteY<<" "<<userInputToWriteZ;
                 //最大値を初期化と1秒間停止（アームの移動の前に特徴点が取得されることを防ぐため）
                 maxOfNearPoints = -1;
+                labelSumOfPoint = 0;
                 std::this_thread::sleep_for(std::chrono::seconds(2));
             }else{
                 int sumOfNearPoints = mpMapDrawer->CountNearMapPoints(userInputToWriteRadius);
                 if(sumOfNearPoints>maxOfNearPoints){
                     maxOfNearPoints = sumOfNearPoints;
+                    labelSumOfPoint=maxOfNearPoints;
                 }
             }
             
             // //有効となる特徴点の範囲を描画
-            // if(menuShowRangeCircle){
-            //     mpMapDrawer->DrawRangeCircle(userInputToWriteRadius,60);
-            // }
+            if(menuShowRangeCircle){
+                mpMapDrawer->DrawRangeCircle(userInputToWriteRadius,30);
+            }
             
         }
         if(menuShowPoints){
             mpMapDrawer->DrawMapPoints(menuShowCurrentPoints);
         }
-        
-
-
+    
         pangolin::FinishFrame();
 
         cv::Mat im = mpFrameDrawer->DrawFrame();

@@ -26,6 +26,7 @@ int MapDrawer::CountNearMapPoints(const float radius){
     if (vpCurrentMPs.size()>0){
         cv::Mat Rwc = mCameraPose.rowRange(0,3).colRange(0,3).t();
         cv::Mat twc = -Rwc*mCameraPose.rowRange(0,3).col(3);
+
         MapPoint* nearestP = mpMap->GetNearestMapPoint(vpCurrentMPs,twc);
         cv::Mat nearestPPos = nearestP->GetWorldPos();
         if(nearestP!=nullptr){
@@ -59,12 +60,11 @@ void MapDrawer::DrawRangeCircle(const float radius,const int angle)
         cv::Mat varticalVector = CalcVarticalVector(directionVector,radius);
         //角度を360で割った数だけ描画をおこなう
         //あおおの店で描画を行う
-        glPointSize(mPointSize);
-        glBegin(GL_LINE_LOOP);
+        glPointSize(mPointSize*4);
+        glBegin(GL_POINTS);
         glColor3f(0.0, 0.0, 1.0);
         for (int i=0;i<360/angle;i++){
             int tmpAngle = angle*i;
-            cout<<tmpAngle;
             cv::Mat rotatedPoint = CalcRotatedPoint(directionVector,varticalVector,nearestPPos,tmpAngle);
             glVertex3f(rotatedPoint.at<float>(0), rotatedPoint.at<float>(1), rotatedPoint.at<float>(2));
         }
@@ -90,7 +90,7 @@ void MapDrawer::DrawMapPoints(const bool bDrawCurrentPoints)
         glPointSize(mPointSize);
         glBegin(GL_POINTS);
         glColor3f(0.0, 1.0, 0.0);
-
+        
         //currentFrameに写っている点飲み描画する
         for (std::vector<MapPoint *>::const_iterator i = vpCurrentMPs.begin(); i != vpCurrentMPs.end(); i++)
         {
@@ -244,7 +244,7 @@ void MapDrawer::DrawCurrentCamera(pangolin::OpenGlMatrix &Twc)
 #else
         glMultMatrixd(Twc.m);
 #endif
-
+    //点の中心の描画
     glLineWidth(mCameraLineWidth);
     glColor3f(0.0f,1.0f,0.0f);
     glBegin(GL_LINES);
