@@ -18,6 +18,12 @@ cv::Mat CalcRotatedPoint(cv::Mat directionVector,cv::Mat varticalVector,cv::Mat 
 bool IsInCircle(cv::Mat center,cv::Mat point, float radius);
 bool IsInCircleRange(float distance,float radius);
 
+struct PointInfo {
+    int sumOfNearPoints;
+    float distance;
+};
+
+
 namespace ORB_SLAM2
 {
 
@@ -27,7 +33,7 @@ public:
     MapDrawer(Map* pMap, const string &strSettingPath);
 
     Map* mpMap;
-    int  CountNearMapPoints(const float radius);
+    PointInfo CountNearMapPoints(const float radius);
     void DrawRangeCircle(const float radius,const int angle);
     void DrawMapPoints(const bool bDrawCurrentPoints);
     void DrawKeyFrames(const bool bDrawKF, const bool bDrawGraph);

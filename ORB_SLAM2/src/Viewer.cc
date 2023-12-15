@@ -90,6 +90,7 @@ void Viewer::Run()
     pangolin::Var<std::string> inputY("menu.Y coordinate", std::to_string(posY));
     pangolin::Var<std::string> inputZ("menu.Z coordinate", std::to_string(posZ));
     pangolin::Var<std::string> inputRadius("menu.Radius", std::to_string(radius));
+    pangolin::Var<float> inputDistance("menu.Distance",-1.0);
     pangolin::Var<int> labelSumOfPoint("menu.Feature Points", 0);
     pangolin::Var<bool> menuReset("menu.Reset",false,false);
 
@@ -108,7 +109,7 @@ void Viewer::Run()
     Twc.SetIdentity();
 
     cv::namedWindow("ORB-SLAM2: Current Frame");
-    cv::moveWindow("ORB-SLAM2: Current Frame",1160,840);
+    cv::moveWindow("ORB-SLAM2: Current Frame",2160,1000);
 
     bool bFollow = true;
     bool bLocalizationMode = false;
@@ -196,13 +197,15 @@ void Viewer::Run()
                 tmpArmPositionTxt<<fixed<<setprecision(2)<<userInputToWriteX<<" "<<userInputToWriteY<<" "<<userInputToWriteZ;
                 //最大値を初期化と1秒間停止（アームの移動の前に特徴点が取得されることを防ぐため）
                 maxOfNearPoints = -1;
+                inputDistance = -1;
                 labelSumOfPoint = 0;
                 std::this_thread::sleep_for(std::chrono::seconds(2));
             }else{
-                int sumOfNearPoints = mpMapDrawer->CountNearMapPoints(userInputToWriteRadius);
-                if(sumOfNearPoints>maxOfNearPoints){
-                    maxOfNearPoints = sumOfNearPoints;
+                PointInfo result = mpMapDrawer->CountNearMapPoints(userInputToWriteRadius);
+                if(result.sumOfNearPoints>maxOfNearPoints){
+                    maxOfNearPoints = result.sumOfNearPoints;
                     labelSumOfPoint=maxOfNearPoints;
+                    inputDistance = result.distance;
                 }
             }
             

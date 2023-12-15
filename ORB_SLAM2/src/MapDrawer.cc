@@ -21,7 +21,10 @@ MapDrawer::MapDrawer(Map* pMap, const string &strSettingPath):mpMap(pMap)
 }
 
 //近い点をカウントする関数
-int MapDrawer::CountNearMapPoints(const float radius){
+PointInfo MapDrawer::CountNearMapPoints(const float radius){
+    PointInfo result;
+    result.sumOfNearPoints = -1;
+    result.distance = -1;
     const vector<MapPoint *> &vpCurrentMPs  = mpMap->GetCurrentMapPoints(); 
     if (vpCurrentMPs.size()>0){
         cv::Mat Rwc = mCameraPose.rowRange(0,3).colRange(0,3).t();
@@ -29,6 +32,7 @@ int MapDrawer::CountNearMapPoints(const float radius){
 
         MapPoint* nearestP = mpMap->GetNearestMapPoint(vpCurrentMPs,twc);
         cv::Mat nearestPPos = nearestP->GetWorldPos();
+
         if(nearestP!=nullptr){
             int sumOfNearPoints = 0;
             for (size_t i = 0; i < vpCurrentMPs.size(); i++) {
@@ -37,12 +41,14 @@ int MapDrawer::CountNearMapPoints(const float radius){
                     sumOfNearPoints+=1;
                 }
             }
-            return sumOfNearPoints;
+
+            float distance = CalcDistance3Dim(twc,nearestPPos);
+            result.sumOfNearPoints = sumOfNearPoints;
+            result.distance = distance;
+            return result;
         }
     }
-    
-    return -1;
-
+    return result;
 }
 
 void MapDrawer::DrawRangeCircle(const float radius,const int angle)
