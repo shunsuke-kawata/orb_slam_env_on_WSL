@@ -6,6 +6,11 @@
 #include <fstream>
 #include <mutex>
 
+//ロボットアームの座標を入力するテキストファイルのパス
+std::string armPositionTextPath = "../pos_txt/pos.txt";
+//ロボットアームの座標と特徴点を紐づけて保持するためのテキストファイルのパス
+std::string armPositionDatabaseTextPath = "../pos_txt/pos_tracking_data.txt";
+
 namespace ORB_SLAM2
 {
 
@@ -37,10 +42,11 @@ Viewer::Viewer(System* pSystem, FrameDrawer *pFrameDrawer, MapDrawer *pMapDrawer
 
 void Viewer::Run()
 {
-    // /ORB_SLAM2/からの相対パスを記述
-    std::fstream armPositionTxt("../pos_txt/pos.txt");
+    //ロボットアームを移動するための位置座標を書き込むためのテキストファイル
+    std::fstream armPositionTxt(armPositionTextPath);
+    std::ofstream armPositionDatabaseTxt(armPositionDatabaseTextPath,std::ios::trunc);
     float posX, posY, posZ;
-    if (armPositionTxt.is_open()) {
+    if (armPositionTxt.is_open() && armPositionDatabaseTxt.is_open()) {
         // ファイルが正常に開かれた場合に読み込みを行う
         std::string line;
         while (std::getline(armPositionTxt, line)) {
@@ -52,8 +58,8 @@ void Viewer::Run()
                 cout<< "値の読み込みに失敗しました。" << endl;
             }
         }
-        // ファイルを閉じる
         armPositionTxt.close();
+        armPositionDatabaseTxt.close();
     } else {
         // ファイルが開けなかった場合
         cout<< "ファイルを開くことができませんでした。" <<endl;
@@ -171,13 +177,19 @@ void Viewer::Run()
         if(isValidXYZ){
             //入力による値の変更を検知
             if(userInputToWriteX!=userInputX || userInputToWriteY!=userInputY || userInputToWriteZ!=userInputZ){
-                cout<<"write to file "<<maxOfNearPoints<<endl;
+                //現在のロボットアームの座標と特徴点の数をテキストに保持
+                std::fstream tmpArmPositionDatabaseTxt(armPositionDatabaseTextPath,std::ios::app);
+                tmpArmPositionDatabaseTxt<<fixed<<setprecision(2)<<userInputToWriteX<<" "<<userInputToWriteY<<" "<<userInputToWriteZ<<" "<<maxOfNearPoints<<endl;
+                tmpArmPositionDatabaseTxt.close();
+
                 userInputToWriteX = userInputX;
                 userInputToWriteY = userInputY;
                 userInputToWriteZ = userInputZ;
-                //最大値を初期化と1秒間停止
+                std::fstream tmpArmPositionTxt(armPositionTextPath);
+                tmpArmPositionTxt<<fixed<<setprecision(2)<<userInputToWriteX<<" "<<userInputToWriteY<<" "<<userInputToWriteZ;
+                //最大値を初期化と1秒間停止（アームの移動の前に特徴点が取得されることを防ぐため）
                 maxOfNearPoints = -1;
-                std::this_thread::sleep_for(std::chrono::seconds(1));
+                std::this_thread::sleep_for(std::chrono::seconds(2));
             }else{
                 int sumOfNearPoints = mpMapDrawer->CountNearMapPoints(menuShowCurrentPoints);
                 if(sumOfNearPoints>maxOfNearPoints){

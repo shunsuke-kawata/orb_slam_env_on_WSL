@@ -12,7 +12,9 @@
 // void writeToTextFile(const std::string& filePath);
 float CalcDistance2Dim(cv::Mat point1, cv::Mat point2);
 float CalcDistance3Dim(cv::Mat cameraPosition, cv::Mat highestPoint);
+float CalcPerpendicular(cv::Mat targetPoint,cv::Mat startPoint, cv::Mat endPoint);
 bool IsInCircle(cv::Mat center,cv::Mat point, float radius);
+bool IsInCircleRange(float distance,float radius);
 
 namespace ORB_SLAM2
 {

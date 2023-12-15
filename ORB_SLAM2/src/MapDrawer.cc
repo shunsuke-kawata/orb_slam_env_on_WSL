@@ -31,7 +31,8 @@ int MapDrawer::CountNearMapPoints(const bool bDrawCurrentPoints){
             if(nearestP!=nullptr){
                 int sumOfNearPoints = 0;
                 for (size_t i = 0; i < vpCurrentMPs.size(); i++) {
-                    if(IsInCircle(nearestPPos,vpCurrentMPs[i]->GetWorldPos(),0.5)){
+                    float perpendicularDistance = CalcPerpendicular(vpCurrentMPs[i]->GetWorldPos(),twc,nearestPPos);
+                    if(IsInCircleRange(perpendicularDistance,0.5)){
                         sumOfNearPoints+=1;
                     }
                 }
