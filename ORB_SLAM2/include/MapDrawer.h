@@ -13,6 +13,8 @@
 float CalcDistance2Dim(cv::Mat point1, cv::Mat point2);
 float CalcDistance3Dim(cv::Mat cameraPosition, cv::Mat highestPoint);
 float CalcPerpendicular(cv::Mat targetPoint,cv::Mat startPoint, cv::Mat endPoint);
+cv::Mat CalcVarticalVector(cv::Mat directionVector,float radius);
+cv::Mat CalcRotatedPoint(cv::Mat directionVector,cv::Mat varticalVector,cv::Mat endPoint,int angle);
 bool IsInCircle(cv::Mat center,cv::Mat point, float radius);
 bool IsInCircleRange(float distance,float radius);
 
@@ -25,7 +27,8 @@ public:
     MapDrawer(Map* pMap, const string &strSettingPath);
 
     Map* mpMap;
-    int  CountNearMapPoints(const bool bDrawCurrentPoints);
+    int  CountNearMapPoints(const float radius);
+    void DrawRangeCircle(const float radius,const int angle);
     void DrawMapPoints(const bool bDrawCurrentPoints);
     void DrawKeyFrames(const bool bDrawKF, const bool bDrawGraph);
     void DrawCurrentCamera(pangolin::OpenGlMatrix &Twc);

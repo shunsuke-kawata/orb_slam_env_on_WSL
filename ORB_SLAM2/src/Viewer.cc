@@ -46,6 +46,7 @@ void Viewer::Run()
     std::fstream armPositionTxt(armPositionTextPath);
     std::ofstream armPositionDatabaseTxt(armPositionDatabaseTextPath,std::ios::trunc);
     float posX, posY, posZ;
+    float radius = 0.5;
     if (armPositionTxt.is_open() && armPositionDatabaseTxt.is_open()) {
         // ファイルが正常に開かれた場合に読み込みを行う
         std::string line;
@@ -81,12 +82,14 @@ void Viewer::Run()
     pangolin::Var<bool> menuFollowCamera("menu.Follow Camera",true,true);
     pangolin::Var<bool> menuShowPoints("menu.Show Points",true,true);
     pangolin::Var<bool> menuShowCurrentPoints("menu.Show Current Points", true, true);
+    pangolin::Var<bool> menuShowRangeCircle("menu.Show Circle", true, true);
     pangolin::Var<bool> menuShowKeyFrames("menu.Show KeyFrames",true,true);
     pangolin::Var<bool> menuShowGraph("menu.Show Graph",true,true);
     pangolin::Var<bool> menuLocalizationMode("menu.Localization Mode",false,true);
-    pangolin::Var<std::string> inputX("menu.X座標", std::to_string(posX));
-    pangolin::Var<std::string> inputY("menu.Y座標", std::to_string(posY));
-    pangolin::Var<std::string> inputZ("menu.Z座標", std::to_string(posZ));
+    pangolin::Var<std::string> inputX("menu.Xcoordinate", std::to_string(posX));
+    pangolin::Var<std::string> inputY("menu.Ycoordinate", std::to_string(posY));
+    pangolin::Var<std::string> inputZ("menu.Zcoordinate", std::to_string(posZ));
+    pangolin::Var<std::string> inputRadius("menu.Radius", std::to_string(radius));
     pangolin::Var<bool> menuReset("menu.Reset",false,false);
 
     // Define Camera Render Object (for view / scene browsing)
@@ -113,10 +116,12 @@ void Viewer::Run()
     float userInputToWriteX = std::stof(inputX.Get());
     float userInputToWriteY = std::stof(inputY.Get());
     float userInputToWriteZ = std::stof(inputZ.Get());
+    float userInputToWriteRadius = std::stof(inputRadius.Get());
+
     //テキストで保持する最大値の初期値
     int maxOfNearPoints = -1;
 
-    bool isValidXYZ = false;
+    bool isValidUserInput = false;
     float userInputX,userInputY,userInputZ;
 
     while(1)
@@ -163,18 +168,19 @@ void Viewer::Run()
             userInputX = std::stof(inputX.Get());
             userInputY = std::stof(inputY.Get());
             userInputZ = std::stof(inputZ.Get());
-            isValidXYZ = true;
+            userInputToWriteRadius = std::stof(inputRadius.Get());
+            isValidUserInput = true;
         } catch (const std::invalid_argument& e) {
         // 例外が発生した場合
             cout << "Invalid Input: " << e.what() << std::endl;
-            isValidXYZ = false;
+            isValidUserInput = false;
         } catch (const std::out_of_range& e) {
             // 例外が発生した場合
             cout << "Out of range: " << e.what() << std::endl;
-            isValidXYZ = false;
+            isValidUserInput = false;
         }
         //有効にxyzが入力されている場合実行する
-        if(isValidXYZ){
+        if(isValidUserInput){
             //入力による値の変更を検知
             if(userInputToWriteX!=userInputX || userInputToWriteY!=userInputY || userInputToWriteZ!=userInputZ){
                 //現在のロボットアームの座標と特徴点の数をテキストに保持
@@ -191,16 +197,23 @@ void Viewer::Run()
                 maxOfNearPoints = -1;
                 std::this_thread::sleep_for(std::chrono::seconds(2));
             }else{
-                int sumOfNearPoints = mpMapDrawer->CountNearMapPoints(menuShowCurrentPoints);
+                int sumOfNearPoints = mpMapDrawer->CountNearMapPoints(userInputToWriteRadius);
                 if(sumOfNearPoints>maxOfNearPoints){
                     maxOfNearPoints = sumOfNearPoints;
                 }
             }
             
+            // //有効となる特徴点の範囲を描画
+            // if(menuShowRangeCircle){
+            //     mpMapDrawer->DrawRangeCircle(userInputToWriteRadius,60);
+            // }
+            
         }
         if(menuShowPoints){
             mpMapDrawer->DrawMapPoints(menuShowCurrentPoints);
         }
+        
+
 
         pangolin::FinishFrame();
 
