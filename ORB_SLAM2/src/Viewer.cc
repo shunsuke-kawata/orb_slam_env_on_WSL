@@ -86,9 +86,7 @@ void Viewer::Run()
     pangolin::Var<bool> menuShowKeyFrames("menu.Show KeyFrames",false,true);
     pangolin::Var<bool> menuShowGraph("menu.Show Graph",false,true);
     pangolin::Var<bool> menuLocalizationMode("menu.Localization Mode",false,true);
-    pangolin::Var<std::string> inputX("menu.X coordinate", std::to_string(posX));
-    pangolin::Var<std::string> inputY("menu.Y coordinate", std::to_string(posY));
-    pangolin::Var<std::string> inputZ("menu.Z coordinate", std::to_string(posZ));
+    pangolin::Var<std::string> inputXYZ("menu.XYZ coordinate", removeTrailingZeros(std::to_string(posX))+" "+removeTrailingZeros((std::to_string(posY)))+" "+removeTrailingZeros((std::to_string(posZ))));
     pangolin::Var<std::string> inputRadius("menu.Radius", std::to_string(radius));
     pangolin::Var<float> inputDistance("menu.Distance",-1.0);
     pangolin::Var<int> labelSumOfPoint("menu.Feature Points", 0);
@@ -115,9 +113,29 @@ void Viewer::Run()
     bool bLocalizationMode = false;
 
     //初期値
-    float userInputToWriteX = std::stof(inputX.Get());
-    float userInputToWriteY = std::stof(inputY.Get());
-    float userInputToWriteZ = std::stof(inputZ.Get());
+    string userInputToWriteXYZ = inputXYZ.Get();
+    istringstream iss(userInputToWriteXYZ);
+    string tmpX,tmpY,tmpZ;
+    iss>>tmpX>>tmpY>>tmpZ;
+            //viewerから読み込む値と正しく読み込めているかを保持する変数
+    
+    float userInputToWriteX = -1;
+    float userInputToWriteY = -1;
+    float userInputToWriteZ = -1;
+
+    try {
+    //viewerの入力欄から取得した座標
+        userInputToWriteX = std::stof(tmpX);
+        userInputToWriteY = std::stof(tmpY);
+        userInputToWriteZ = std::stof(tmpZ);
+    } catch (const std::invalid_argument& e) {
+    // 例外が発生した場合
+        cout << "Invalid Input Init: " << e.what() << std::endl;
+    } catch (const std::out_of_range& e) {
+        // 例外が発生した場合
+        cout << "Out of range Init: " << e.what() << std::endl;
+    }
+
     float userInputToWriteRadius = std::stof(inputRadius.Get());
 
     //テキストで保持する最大値の初期値
@@ -164,12 +182,15 @@ void Viewer::Run()
             mpMapDrawer->DrawKeyFrames(menuShowKeyFrames,menuShowGraph);
         }
 
+        string userInputXYZ = inputXYZ.Get();
+        istringstream iss(userInputXYZ);
+        iss>>tmpX>>tmpY>>tmpZ;
         //viewerから読み込む値と正しく読み込めているかを保持する変数
         try {
         //viewerの入力欄から取得した座標
-            userInputX = std::stof(inputX.Get());
-            userInputY = std::stof(inputY.Get());
-            userInputZ = std::stof(inputZ.Get());
+            userInputX = std::stof(tmpX);
+            userInputY = std::stof(tmpY);
+            userInputZ = std::stof(tmpZ);
             userInputToWriteRadius = std::stof(inputRadius.Get());
             isValidUserInput = true;
         } catch (const std::invalid_argument& e) {

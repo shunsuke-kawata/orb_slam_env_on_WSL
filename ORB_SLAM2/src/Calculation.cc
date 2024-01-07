@@ -1,4 +1,6 @@
 #include<math.h>
+#include<string>
+#include <sstream>
 #include<opencv2/core/core.hpp>
 
 using namespace std;
@@ -62,6 +64,24 @@ bool IsInCircle(cv::Mat center,cv::Mat point, float radius){
     return distance<=radius; 
 }
 
+//半径と距離を比較して円の中に点があるかどうかを比較する
 bool IsInCircleRange(float distance,float radius){
     return distance<=radius;
 }
+
+
+//float2stringを行った際の0埋めを削除する
+string removeTrailingZeros(const std::string& str) {
+    size_t dotPos = str.find('.');
+    if (dotPos != std::string::npos) {
+        size_t lastNonZero = str.find_last_not_of('0');
+        if (lastNonZero == dotPos) {
+            return str.substr(0, dotPos);
+        } else {
+            return str.substr(0, lastNonZero + 1);
+        }
+    }
+    return str;
+}
+
+

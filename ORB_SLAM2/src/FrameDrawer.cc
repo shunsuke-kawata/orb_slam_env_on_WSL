@@ -51,10 +51,14 @@ cv::Mat FrameDrawer::DrawFrame()
         }
     } // destroy scoped mutex -> release mutex
 
+
+    //画像をグレースケールに変換
     if(im.channels()<3) //this should be always true
         cvtColor(im,im,CV_GRAY2BGR);
 
-    //Draw
+    
+
+    //初期化中の特徴点ベクトルを描画する
     if(state==Tracking::NOT_INITIALIZED) //INITIALIZING
     {
         for(unsigned int i=0; i<vMatches.size(); i++)
@@ -66,6 +70,8 @@ cv::Mat FrameDrawer::DrawFrame()
             }
         }        
     }
+
+    //トラッキング実行中の特徴点を描画する
     else if(state==Tracking::OK) //TRACKING
     {
         mnTracked=0;

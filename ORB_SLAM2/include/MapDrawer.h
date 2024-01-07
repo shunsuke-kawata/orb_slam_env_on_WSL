@@ -23,7 +23,6 @@ struct PointInfo {
     float distance;
 };
 
-
 namespace ORB_SLAM2
 {
 

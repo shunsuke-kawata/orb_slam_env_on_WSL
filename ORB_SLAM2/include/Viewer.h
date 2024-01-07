@@ -8,6 +8,8 @@
 
 #include <mutex>
 
+string removeTrailingZeros(const std::string& str);
+
 namespace ORB_SLAM2
 {
 
