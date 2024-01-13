@@ -21,7 +21,7 @@ MapDrawer::MapDrawer(Map* pMap, const string &strSettingPath):mpMap(pMap)
 }
 
 //近い点をカウントする関数
-PointInfo MapDrawer::CountNearMapPoints(const float radius){
+PointInfo MapDrawer::CountNearMapPoints(const float radius,cv::Mat zVector){
     PointInfo result;
     result.sumOfNearPoints = -1;
     result.distance = -1;
@@ -30,23 +30,28 @@ PointInfo MapDrawer::CountNearMapPoints(const float radius){
         cv::Mat Rwc = mCameraPose.rowRange(0,3).colRange(0,3).t();
         cv::Mat twc = -Rwc*mCameraPose.rowRange(0,3).col(3);
 
-        MapPoint* nearestP = mpMap->GetNearestMapPoint(vpCurrentMPs,twc);
-        cv::Mat nearestPPos = nearestP->GetWorldPos();
-
-        if(nearestP!=nullptr){
-            int sumOfNearPoints = 0;
-            for (size_t i = 0; i < vpCurrentMPs.size(); i++) {
-                float perpendicularDistance = CalcPerpendicular(vpCurrentMPs[i]->GetWorldPos(),twc,nearestPPos);
-                if(IsInCircleRange(perpendicularDistance,radius)){
-                    sumOfNearPoints+=1;
-                }
+        cv::Mat nearestPPos = twc+zVector;
+        // MapPoint* nearestP = mpMap->GetNearestMapPoint(vpCurrentMPs,twc);
+        // cv::Mat nearestPPos = nearestP->GetWorldPos();
+        glPointSize(mPointSize*15);
+        glBegin(GL_POINTS);
+        glColor3f(0.0, 0.0, 1.0);
+        glVertex3f(twc.at<float>(0), twc.at<float>(1), twc.at<float>(2));
+        glVertex3f(nearestPPos.at<float>(0), nearestPPos.at<float>(1), nearestPPos.at<float>(2));
+        glEnd();
+        int sumOfNearPoints = 0;
+        for (size_t i = 0; i < vpCurrentMPs.size(); i++) {
+            float perpendicularDistance = CalcPerpendicular(vpCurrentMPs[i]->GetWorldPos(),twc,nearestPPos);
+            if(IsInCircleRange(perpendicularDistance,radius)){
+                sumOfNearPoints+=1;
             }
-
-            float distance = CalcDistance3Dim(twc,nearestPPos);
-            result.sumOfNearPoints = sumOfNearPoints;
-            result.distance = distance;
-            return result;
         }
+
+        float distance = CalcDistance3Dim(twc,nearestPPos);
+        result.sumOfNearPoints = sumOfNearPoints;
+        result.distance = distance;
+        return result;
+        
     }
     return result;
 }
@@ -59,13 +64,17 @@ void MapDrawer::DrawRangeCircle(const float radius,const int angle)
         cv::Mat twc = -Rwc*mCameraPose.rowRange(0,3).col(3);
         MapPoint* nearestP = mpMap->GetNearestMapPoint(vpCurrentMPs,twc);
         cv::Mat nearestPPos = nearestP->GetWorldPos();
-
+        glPointSize(mPointSize*10);
+        glBegin(GL_POINTS);
+        glColor3f(0.0, 0.0, 1.0);
+        glVertex3f(twc.at<float>(0), twc.at<float>(1), twc.at<float>(2));
+        glEnd();
         //視点と終点を結んだベクトル
         cv::Mat directionVector = nearestPPos-twc;
         //360度以上は入ってこないと想定
         cv::Mat varticalVector = CalcVarticalVector(directionVector,radius);
         //角度を360で割った数だけ描画をおこなう
-        //あおおの店で描画を行う
+        //青の点で描画を行う
         glPointSize(mPointSize*4);
         glBegin(GL_POINTS);
         glColor3f(0.0, 0.0, 1.0);
@@ -322,4 +331,8 @@ void MapDrawer::GetCurrentOpenGLCameraMatrix(pangolin::OpenGlMatrix &M)
         M.SetIdentity();
 }
 
-} //namespace ORB_SLAM
+cv::Mat MapDrawer::GetCameraPose()
+{
+    return mCameraPose;
+}
+}//namespace ORB_SLAM

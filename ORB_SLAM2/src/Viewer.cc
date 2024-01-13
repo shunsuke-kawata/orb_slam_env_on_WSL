@@ -47,6 +47,7 @@ void Viewer::Run()
     std::ofstream armPositionDatabaseTxt(armPositionDatabaseTextPath,std::ios::trunc);
     float posX, posY, posZ;
     float radius = 0.3;
+
     if (armPositionTxt.is_open() && armPositionDatabaseTxt.is_open()) {
         // ファイルが正常に開かれた場合に読み込みを行う
         std::string line;
@@ -86,6 +87,7 @@ void Viewer::Run()
     pangolin::Var<bool> menuShowKeyFrames("menu.Show KeyFrames",false,true);
     pangolin::Var<bool> menuShowGraph("menu.Show Graph",false,true);
     pangolin::Var<bool> menuLocalizationMode("menu.Localization Mode",false,true);
+    pangolin::Var<bool> menuZInitMode("menu.Z Init Mode", false, true);
     pangolin::Var<std::string> inputXYZ("menu.XYZ coordinate", removeTrailingZeros(std::to_string(posX))+" "+removeTrailingZeros((std::to_string(posY)))+" "+removeTrailingZeros((std::to_string(posZ))));
     pangolin::Var<std::string> inputRadius("menu.Radius", std::to_string(radius));
     pangolin::Var<float> inputDistance("menu.Distance",-1.0);
@@ -111,6 +113,9 @@ void Viewer::Run()
 
     bool bFollow = true;
     bool bLocalizationMode = false;
+    bool isZInitMode = menuZInitMode;
+
+    cv::Mat startPoint,endPoint;
 
     //初期値
     string userInputToWriteXYZ = inputXYZ.Get();
@@ -144,10 +149,30 @@ void Viewer::Run()
     bool isValidUserInput = false;
     float userInputX,userInputY,userInputZ;
 
+    cv::Mat t,Rwc,twc;
     while(1)
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         mpMapDrawer->GetCurrentOpenGLCameraMatrix(Twc);
+        t = mpMapDrawer->GetCameraPose();
+        // cv::Mat twc = cv::Mat::zeros(3, 3, 3);
+        //始点の定義
+        if(menuZInitMode==true && isZInitMode==false){
+            Rwc = t.rowRange(0,3).colRange(0,3).t();
+            twc = -Rwc*t.rowRange(0,3).col(3);
+            startPoint=twc;
+            isZInitMode=menuZInitMode;
+            cout<<"Z軸ベクトルの始点"<<startPoint.at<float>(0)<<startPoint.at<float>(1)<<startPoint.at<float>(2)<<endl;
+        }
+
+        //終点の定義
+        if(menuZInitMode==false && isZInitMode==true){
+            Rwc = t.rowRange(0,3).colRange(0,3).t();
+            twc = -Rwc*t.rowRange(0,3).col(3);
+            endPoint=twc;
+            isZInitMode=menuZInitMode;
+            cout<<"Z軸ベクトルの終点"<<endPoint.at<float>(0)<<endPoint.at<float>(1)<<endPoint.at<float>(2)<<endl;
+        }
 
         if(menuFollowCamera && bFollow)
         {
@@ -202,13 +227,12 @@ void Viewer::Run()
             cout << "Out of range: " << e.what() << std::endl;
             isValidUserInput = false;
         }
-        //有効にxyzが入力されている場合実行する
         if(isValidUserInput){
-            //入力による値の変更を検知
+            //入力による値の変更を検知setprecision(2)
             if(userInputToWriteX!=userInputX || userInputToWriteY!=userInputY || userInputToWriteZ!=userInputZ){
                 //現在のロボットアームの座標と特徴点の数をテキストに保持
                 std::fstream tmpArmPositionDatabaseTxt(armPositionDatabaseTextPath,std::ios::app);
-                tmpArmPositionDatabaseTxt<<fixed<<setprecision(2)<<userInputToWriteX<<" "<<userInputToWriteY<<" "<<userInputToWriteZ<<" "<<maxOfNearPoints<<endl;
+                tmpArmPositionDatabaseTxt<<fixed<<setprecision(2)<<userInputToWriteX<<" "<<userInputToWriteY<<" "<<userInputToWriteZ<<" "<<maxOfNearPoints<<" "<<fixed<<setprecision(4)<<inputDistance<<endl;
                 tmpArmPositionDatabaseTxt.close();
 
                 userInputToWriteX = userInputX;
@@ -222,11 +246,13 @@ void Viewer::Run()
                 labelSumOfPoint = 0;
                 std::this_thread::sleep_for(std::chrono::seconds(2));
             }else{
-                PointInfo result = mpMapDrawer->CountNearMapPoints(userInputToWriteRadius);
-                if(result.sumOfNearPoints>maxOfNearPoints){
-                    maxOfNearPoints = result.sumOfNearPoints;
-                    labelSumOfPoint=maxOfNearPoints;
-                    inputDistance = result.distance;
+                if(!startPoint.empty() && !endPoint.empty() && menuZInitMode==false){
+                    PointInfo result = mpMapDrawer->CountNearMapPoints(userInputToWriteRadius,endPoint-startPoint);
+                    if(result.sumOfNearPoints>maxOfNearPoints){
+                        maxOfNearPoints = result.sumOfNearPoints;
+                        labelSumOfPoint=maxOfNearPoints;
+                        inputDistance = result.distance;
+                    }
                 }
             }
             

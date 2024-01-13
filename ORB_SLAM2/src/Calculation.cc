@@ -69,7 +69,6 @@ bool IsInCircleRange(float distance,float radius){
     return distance<=radius;
 }
 
-
 //float2stringを行った際の0埋めを削除する
 string removeTrailingZeros(const std::string& str) {
     size_t dotPos = str.find('.');

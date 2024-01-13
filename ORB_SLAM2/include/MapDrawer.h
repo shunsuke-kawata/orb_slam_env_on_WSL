@@ -32,7 +32,7 @@ public:
     MapDrawer(Map* pMap, const string &strSettingPath);
 
     Map* mpMap;
-    PointInfo CountNearMapPoints(const float radius);
+    PointInfo CountNearMapPoints(const float radius,cv::Mat zVector);
     void DrawRangeCircle(const float radius,const int angle);
     void DrawMapPoints(const bool bDrawCurrentPoints);
     void DrawKeyFrames(const bool bDrawKF, const bool bDrawGraph);
@@ -40,6 +40,8 @@ public:
     void SetCurrentCameraPose(const cv::Mat &Tcw);
     void SetReferenceKeyFrame(KeyFrame *pKF);
     void GetCurrentOpenGLCameraMatrix(pangolin::OpenGlMatrix &M);
+
+    cv::Mat GetCameraPose();
 
 private:
 
