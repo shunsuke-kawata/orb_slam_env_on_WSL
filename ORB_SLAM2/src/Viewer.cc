@@ -46,7 +46,7 @@ void Viewer::Run()
     std::fstream armPositionTxt(armPositionTextPath);
     std::ofstream armPositionDatabaseTxt(armPositionDatabaseTextPath,std::ios::trunc);
     float posX, posY, posZ;
-    float radius = 0.3;
+    float radius = 0.05;
     if (armPositionTxt.is_open() && armPositionDatabaseTxt.is_open()) {
         // ファイルが正常に開かれた場合に読み込みを行う
         std::string line;
@@ -87,7 +87,7 @@ void Viewer::Run()
     pangolin::Var<bool> menuShowGraph("menu.Show Graph",false,true);
     pangolin::Var<bool> menuLocalizationMode("menu.Localization Mode",false,true);
     pangolin::Var<std::string> inputXYZ("menu.XYZ coordinate", removeTrailingZeros(std::to_string(posX))+" "+removeTrailingZeros((std::to_string(posY)))+" "+removeTrailingZeros((std::to_string(posZ))));
-    pangolin::Var<std::string> inputRadius("menu.Radius", std::to_string(radius));
+    pangolin::Var<std::string> inputRadius("menu.Radius", removeTrailingZeros(std::to_string(radius)));
     pangolin::Var<float> inputDistance("menu.Distance",-1.0);
     pangolin::Var<int> labelSumOfPoint("menu.Feature Points", 0);
     pangolin::Var<bool> menuReset("menu.Reset",false,false);
@@ -219,7 +219,7 @@ void Viewer::Run()
                 maxOfNearPoints = -1;
                 inputDistance = -1;
                 labelSumOfPoint = 0;
-                std::this_thread::sleep_for(std::chrono::seconds(2));
+                std::this_thread::sleep_for(std::chrono::seconds(15));
             }else{
                 PointInfo result = mpMapDrawer->CountNearMapPoints(userInputToWriteRadius);
                 if(result.sumOfNearPoints>maxOfNearPoints){
