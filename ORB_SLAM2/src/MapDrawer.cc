@@ -43,6 +43,7 @@ PointInfo MapDrawer::CountNearMapPoints(const float radius){
             }
 
             float distance = CalcDistance3Dim(twc,nearestPPos);
+            cout<<distance<<endl;
             result.sumOfNearPoints = sumOfNearPoints;
             result.distance = distance;
             return result;
